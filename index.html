@@ -1,0 +1,2720 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title id="pageTitle">BSC EDUCATION</title>
+<style>
+:root{
+  --app-bg:#f5f7fb;
+  --header-bg:#e9f2fd;
+  --primary:#1a73e8;
+  --primary-dark:#0d5bd9;
+  --orange:#f2994a;
+  --orange-btn:#f59e0b;
+  --orange-dark:#d97706;
+  --green:#00a86b;
+  --green-dark:#058a58;
+  --red:#dc2626;
+  --text-dark:#1f2937;
+  --text-muted:#6b7280;
+  --card-bg:#ffffff;
+  --border-color:#e5e7eb;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{background:#0f172a;color:var(--text-dark);display:flex;justify-content:center;min-height:100vh}
+
+/* Mobile App Frame Container */
+#mobileContainer{
+  width:100%;
+  max-width:480px;
+  background:var(--app-bg);
+  min-height:100vh;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 0 25px rgba(0,0,0,0.25);
+  overflow-x:hidden;
+}
+
+/* TOP APP HEADER */
+.app-header{
+  background:var(--header-bg);
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:90;
+  border-bottom:1px solid #dbeafe;
+}
+.header-left{display:flex;align-items:center;gap:12px;overflow:hidden}
+.header-title-box{display:flex;flex-direction:column}
+.header-title{font-size:17px;font-weight:700;color:#1e3a8a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-fy{font-size:11px;color:var(--text-muted);font-weight:600}
+.header-actions{display:flex;align-items:center;gap:10px}
+.icon-btn{background:none;border:none;cursor:pointer;font-size:19px;color:#1e3a8a;display:flex;align-items:center;justify-content:center;padding:4px;border-radius:50%;position:relative}
+
+/* TOP NAVIGATION TABS */
+.nav-tabs{
+  display:flex;
+  background:#fff;
+  border-bottom:1px solid var(--border-color);
+  position:sticky;
+  top:55px;
+  z-index:80;
+}
+.nav-tab{
+  flex:1;
+  text-align:center;
+  padding:12px 0;
+  font-size:14px;
+  font-weight:600;
+  color:var(--text-muted);
+  cursor:pointer;
+  border-bottom:3px solid transparent;
+  transition:all 0.2s ease;
+}
+.nav-tab.active{
+  color:var(--primary);
+  border-bottom-color:var(--primary);
+}
+
+/* SEARCH & FILTER BAR */
+.search-filter-bar{
+  display:flex;
+  gap:8px;
+  padding:10px 14px;
+  background:#fff;
+  align-items:center;
+}
+.search-box{
+  flex:1;
+  display:flex;
+  align-items:center;
+  background:#fff;
+  border:1px solid #d1d5db;
+  border-radius:24px;
+  padding:0 12px;
+  height:40px;
+}
+.search-box input{
+  border:none;
+  outline:none;
+  width:100%;
+  margin-left:8px;
+  font-size:14px;
+  color:#333;
+}
+
+/* SCROLLABLE MAIN CONTENT AREA */
+.content-body{
+  flex:1;
+  overflow-y:auto;
+  padding-bottom:85px;
+}
+
+/* STUDENT ITEM ROW */
+.student-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 14px;
+  background:#fff;
+  border-bottom:1px solid #edf0f5;
+  cursor:pointer;
+  user-select:none;
+  transition:background 0.15s;
+}
+.student-item:active{background:#f3f6fc}
+.student-info{flex:1;padding-right:10px}
+.student-name{font-size:15px;font-weight:600;color:#111827;line-height:1.2}
+.student-sub{font-size:12px;color:var(--text-muted);margin-top:3px}
+.student-right{display:flex;align-items:center;gap:12px;text-align:right}
+.student-amount{font-size:16px;font-weight:700}
+.student-amount.pos{color:var(--green)}
+.student-amount.neg{color:#e65100}
+.student-amount.zero{color:#9ca3af}
+.reminder-circle-btn{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#eff6ff;
+  color:var(--primary);
+  border:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  cursor:pointer;
+}
+
+/* LEDGER VIEW */
+.ledger-hero-card{
+  background:#fff;
+  margin:12px 14px;
+  border-radius:14px;
+  padding:14px 16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border:1px solid #eef2f6;
+}
+.hero-left{display:flex;align-items:center;gap:12px}
+.hero-arrow-icon{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#dcfce7;
+  color:var(--green);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:bold;
+}
+.hero-label{font-size:12px;color:var(--text-muted);font-weight:500}
+.hero-balance{font-size:22px;font-weight:800;color:#111827}
+
+.hero-right{display:flex;align-items:center;gap:14px}
+.hero-action-btn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+.hero-action-btn span{font-size:11px;font-weight:600;color:var(--text-muted)}
+
+.ledger-table-header{
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1fr;
+  padding:8px 14px;
+  background:#f8fafc;
+  border-top:1px solid var(--border-color);
+  border-bottom:1px solid var(--border-color);
+  font-size:12px;
+  font-weight:700;
+  color:var(--text-muted);
+}
+.ledger-table-header div:nth-child(2),
+.ledger-table-header div:nth-child(3){text-align:right}
+
+.ledger-row{
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1fr;
+  padding:12px 14px;
+  background:#fff;
+  border-bottom:1px solid #f1f5f9;
+  align-items:center;
+  cursor:pointer;
+}
+.ledger-row:hover{background:#f8fafc}
+.ledger-row.debit{border-left:4px solid var(--orange)}
+.ledger-row.credit{border-left:4px solid var(--green)}
+.tx-particulars{display:flex;align-items:center;gap:6px}
+.tx-type-title{font-size:14px;font-weight:600;color:#1f2937}
+.tx-date-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.tx-given{text-align:right;font-size:15px;font-weight:700;color:#1f2937}
+.tx-received{text-align:right;font-size:15px;font-weight:700;color:#1f2937}
+
+/* ATTENDANCE REGISTER SCREEN */
+.att-card{
+  background:#fff;
+  border-radius:12px;
+  margin:10px 14px;
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border:1px solid #e5e7eb;
+}
+.att-btn-group{
+  display:flex;
+  gap:5px;
+  align-items:center;
+}
+.att-btn{
+  width:32px;
+  height:32px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+  background:#f9fafb;
+  font-size:13px;
+  font-weight:bold;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.att-btn.p-active{background:#dcfce7;border-color:#10b981;color:#15803d}
+.att-btn.a-active{background:#fee2e2;border-color:#ef4444;color:#b91c1c}
+.att-btn.l-active{background:#fef3c7;border-color:#f59e0b;color:#b45309}
+.att-btn.h-active{background:#e0f2fe;border-color:#38bdf8;color:#0369a1}
+
+.att-wa-btn{
+  width:32px;
+  height:32px;
+  border-radius:8px;
+  border:none;
+  background:#dcfce7;
+  color:#16a34a;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.att-summary-box{
+  background:#fff;
+  margin:10px 14px;
+  padding:12px 14px;
+  border-radius:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border:1px solid #dbeafe;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+/* MONTHLY ATTENDANCE REGISTER STYLES */
+.monthly-reg-wrapper{
+  background:#fff;
+  margin:10px 14px;
+  border-radius:10px;
+  border:1px solid #e2e8f0;
+  overflow:hidden;
+}
+.monthly-reg-table-container{
+  overflow-x:auto;
+  width:100%;
+}
+.monthly-reg-table{
+  border-collapse:collapse;
+  font-size:11px;
+  width:max-content;
+  min-width:100%;
+  text-align:center;
+}
+.monthly-reg-table th, .monthly-reg-table td{
+  border:1px solid #e2e8f0;
+  padding:6px 4px;
+  min-width:24px;
+  height:28px;
+  vertical-align:middle;
+}
+.monthly-reg-table th{
+  background:#f8fafc;
+  font-weight:700;
+  color:#374151;
+}
+.monthly-reg-table .col-stu-name{
+  position:sticky;
+  left:0;
+  background:#fff;
+  z-index:2;
+  min-width:110px;
+  text-align:left;
+  padding-left:8px;
+  font-weight:600;
+  box-shadow:2px 0 5px rgba(0,0,0,0.04);
+}
+.monthly-reg-table th.col-stu-name{
+  background:#f1f5f9;
+  z-index:3;
+}
+.cell-p{background:#dcfce7;color:#15803d;font-weight:bold}
+.cell-a{background:#fee2e2;color:#b91c1c;font-weight:bold}
+.cell-l{background:#fef3c7;color:#b45309;font-weight:bold}
+.cell-h{background:#e0f2fe;color:#0369a1;font-weight:bold}
+.cell-s{background:#f3f4f6;color:#9ca3af;font-size:10px}
+.col-stat-p{background:#ecfdf5;color:#047857;font-weight:700;min-width:30px}
+.col-stat-a{background:#fef2f2;color:#b91c1c;font-weight:700;min-width:30px}
+.col-stat-l{background:#fffbeb;color:#b45309;font-weight:700;min-width:30px}
+
+/* BOTTOM FIXED BARS */
+.bottom-bar{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:480px;
+  background:#fff;
+  padding:10px 14px;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.06);
+  z-index:95;
+  display:flex;
+  gap:10px;
+}
+#barAddStudent{display:block}
+.btn-add-student{
+  width:100%;
+  background:linear-gradient(180deg,#f59e0b,#d97706);
+  color:#fff;
+  border:none;
+  padding:14px;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+#barLedgerActions{
+  display:none;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:10px 14px;
+}
+.btn-receive-pmt{
+  background:#1a73e8;
+  color:#fff;
+  border:none;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  cursor:pointer;
+}
+.btn-give-credit{
+  background:#f59e0b;
+  color:#fff;
+  border:none;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  cursor:pointer;
+}
+
+/* EXACT PDF REPORT */
+#viewPdfPreview{
+  background:#e2ecf9;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+}
+.pdf-preview-header{
+  background:#dbeafe;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  position:sticky;
+  top:0;
+  z-index:105;
+}
+.pdf-preview-header h2{
+  font-size:20px;
+  font-weight:700;
+  color:#1e293b;
+}
+
+.pdf-preview-scroll-area{
+  flex:1;
+  overflow-y:auto;
+  padding:14px 10px 90px 10px;
+  display:flex;
+  justify-content:center;
+}
+
+.pdf-sheet{
+  background:#ffffff;
+  width:100%;
+  max-width:460px;
+  min-height:620px;
+  padding:18px 16px;
+  border-radius:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  font-size:11px;
+  color:#1f2937;
+  display:flex;
+  flex-direction:column;
+}
+
+.pdf-institute-title{
+  text-align:center;
+  font-size:16px;
+  font-weight:800;
+  color:#000;
+  letter-spacing:0.3px;
+  text-transform:uppercase;
+}
+.pdf-institute-sub{
+  text-align:center;
+  font-size:10px;
+  color:#4b5563;
+  margin-top:3px;
+  line-height:1.4;
+}
+.pdf-divider{
+  border:none;
+  border-top:1px solid #111;
+  margin:10px 0;
+}
+.pdf-report-title{
+  text-align:center;
+  font-size:12px;
+  font-weight:700;
+  text-decoration:underline;
+  color:#111;
+  margin-bottom:4px;
+}
+.pdf-meta-center{
+  text-align:center;
+  font-size:10.5px;
+  font-weight:600;
+  color:#222;
+  margin-bottom:2px;
+}
+
+.pdf-balance-box{
+  border:1px solid #94a3b8;
+  border-radius:10px;
+  padding:8px 14px;
+  width:170px;
+  margin:12px 0 14px 2px;
+  position:relative;
+  background:#fff;
+}
+.pdf-balance-box .p-amount{
+  font-size:16px;
+  font-weight:800;
+  color:#000;
+}
+.pdf-balance-box .p-label{
+  font-size:10px;
+  font-weight:600;
+  color:#374151;
+  margin-top:2px;
+}
+.pdf-balance-box .p-badge-icon{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#10b981;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.pdf-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:10px;
+  margin-top:6px;
+}
+.pdf-table th{
+  border-top:1.5px solid #111;
+  border-bottom:1.5px solid #111;
+  padding:7px 4px;
+  font-weight:700;
+  color:#111;
+  text-align:left;
+}
+.pdf-table td{
+  padding:7px 4px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:middle;
+}
+.pdf-table .col-date{width:70px}
+.pdf-table .col-part{width:160px;font-weight:600;color:#1e293b}
+.pdf-table .col-debit{width:65px;text-align:right;color:#d97706;font-weight:700}
+.pdf-table .col-credit{width:65px;text-align:right;color:#0284c7;font-weight:700}
+.pdf-table .col-bal{width:70px;text-align:right;font-weight:700}
+
+.pdf-table tr.total-row{
+  background:#f1f5f9;
+  font-weight:700;
+}
+.pdf-table tr.total-row td{
+  border-top:1.5px solid #111;
+  border-bottom:1.5px solid #111;
+  padding:6px 4px;
+}
+
+.pdf-sheet-footer{
+  margin-top:auto;
+  padding-top:25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  font-size:9px;
+  color:#64748b;
+  border-top:1px dashed #cbd5e1;
+}
+
+.pdf-action-bar{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:480px;
+  background:#fff;
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.08);
+  border-top:1px solid #e2e8f0;
+  z-index:110;
+}
+.pdf-bar-btn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  background:none;
+  border:none;
+  font-size:13px;
+  font-weight:700;
+  color:#1a73e8;
+  cursor:pointer;
+}
+
+/* PAYMENT LANDING SCREEN */
+#paymentLandingScreen {
+  background: var(--app-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+}
+.pay-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 28px 24px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+.pay-company-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1e3a8a;
+  text-transform: uppercase;
+}
+.pay-student-name {
+  font-size: 15px;
+  color: #6b7280;
+  margin-top: 6px;
+}
+.pay-amount-box {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 24px 10px;
+  margin: 24px 0;
+}
+.pay-amount-label { font-size: 14px; color: #4b5563; font-weight: 600; }
+.pay-amount-val { font-size: 36px; font-weight: 800; color: #111827; margin-top: 6px; }
+.pay-qr-wrapper {
+  margin: 20px auto 16px;
+  width: 200px;
+  height: 200px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.pay-qr-wrapper img { width: 100%; height: 100%; object-fit: contain; }
+.pay-scan-text { font-size: 13px; color: #64748b; font-weight: 600; }
+.pay-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.25);
+  transition: all 0.2s;
+}
+.pay-btn:active { transform: scale(0.97); }
+.pay-footer { font-size: 12px; color: #475569; line-height: 1.6; }
+
+/* PRINT MEDIA QUERY */
+@media print {
+  body{background:#fff !important}
+  #mobileContainer{box-shadow:none !important;max-width:100% !important;width:100% !important}
+  .app-header, .nav-tabs, .search-filter-bar, .bottom-bar, .pdf-preview-header, .pdf-action-bar, #viewStudents, #viewTransactions, #viewLedger, #loginScreen, #paymentLandingScreen{
+    display:none !important;
+  }
+  #viewAttendance{display:block !important;padding:0 !important}
+  .monthly-reg-wrapper{border:none !important;margin:0 !important;box-shadow:none !important}
+  #attTabsHeader, #attDailyControls, #attMonthlyControls .search-filter-bar{display:none !important}
+  #attMonthlyControls{display:block !important}
+  #viewPdfPreview{background:#fff !important;padding:0 !important;display:block !important}
+  .pdf-preview-scroll-area{padding:0 !important;display:block !important}
+  .pdf-sheet{
+    box-shadow:none !important;
+    max-width:100% !important;
+    width:100% !important;
+    padding:10px !important;
+    border:none !important;
+  }
+}
+
+/* SIDEBAR DRAWER */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:150;display:none}
+.drawer{
+  position:fixed;top:0;left:0;bottom:0;width:290px;
+  background:#fff;z-index:160;
+  transform:translateX(-100%);
+  transition:transform 0.25s ease-in-out;
+  display:flex;flex-direction:column;
+}
+.drawer.open{transform:translateX(0)}
+.drawer-header{background:#1e3a8a;color:#fff;padding:20px 16px}
+.drawer-menu{list-style:none;padding:10px 0;overflow-y:auto;flex:1}
+.drawer-item{padding:12px 18px;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600;color:#374151;cursor:pointer}
+.drawer-item:active{background:#eff6ff}
+
+/* MODALS */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.5);
+  z-index:200;display:none;align-items:center;justify-content:center;padding:14px;
+}
+.modal-box{background:#fff;border-radius:16px;max-width:440px;width:100%;max-height:90vh;overflow-y:auto;padding:18px}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:12px;color:#111827}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:12px;font-weight:700;margin-bottom:4px;color:#4b5563}
+.form-group input, .form-group select, .form-group textarea{
+  width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;outline:none;
+}
+.form-actions{display:flex;gap:8px;margin-top:14px}
+.form-actions button{flex:1;padding:12px;border:none;border-radius:8px;font-weight:700;cursor:pointer}
+
+/* Settings Sections */
+.settings-tab-btn{
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  color:#1e3a8a;
+  padding:8px 12px;
+  border-radius:6px;
+  font-weight:600;
+  font-size:12px;
+  cursor:pointer;
+  margin-bottom:6px;
+}
+.settings-section{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:8px;
+  padding:12px;
+  margin-bottom:12px;
+}
+.settings-section-title{
+  font-size:13px;
+  font-weight:700;
+  color:#1e3a8a;
+  margin-bottom:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.hidden{display:none !important}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+</style>
+</head>
+<body>
+
+<div id="mobileContainer">
+
+  <!-- ================= PAYMENT LANDING PAGE ================= -->
+  <div id="paymentLandingScreen" class="hidden">
+    <div class="pay-card">
+      <div class="pay-company-title" id="payScreenCompanyTitle">BSC EDUCATION</div>
+      <div class="pay-student-name">Payment for <b id="payScreenStudentName"></b></div>
+      
+      <div class="pay-amount-box">
+        <div class="pay-amount-label">Amount to Pay</div>
+        <div class="pay-amount-val" id="payScreenAmount">₹ 0</div>
+        
+        <div class="pay-qr-wrapper">
+          <img id="payScreenQrCode" src="" alt="Generating QR Code...">
+        </div>
+        <div class="pay-scan-text">Scan QR Code using any UPI App</div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:4px">GPay, PhonePe, Paytm, BHIM</div>
+      </div>
+      
+      <a id="payScreenTapBtn" href="#" class="pay-btn">
+        <span>👆</span> Tap to Pay via UPI App
+      </a>
+      
+      <div class="pay-footer">
+        <div>💳 Payee: <b id="payScreenPayeeName"></b></div>
+        <div>UPI ID: <span id="payScreenUpiId"></span></div>
+        <div style="margin-top:16px;font-size:10.5px;color:#94a3b8">
+          🔒 Secure UPI Payment. No payment gateway fees.<br>Funds are transferred directly to the institute's bank.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= LOGIN SCREEN ================= -->
+  <div id="loginScreen" style="padding:24px 16px;margin:auto;width:100%">
+    <div style="text-align:center;margin-bottom:24px">
+      <h2 id="loginCompanyTitle" style="font-size:24px;color:#1e3a8a;margin-bottom:4px">BSC EDUCATION</h2>
+      <p id="loginCompanySub" style="font-size:12px;color:#6b7280">ARTOKA, BENGABAD, GIRIDIH, JHARKHAND</p>
+      <div id="loginHint" style="margin-top:12px;background:#e0f2fe;padding:8px 12px;border-radius:8px;font-size:12px;color:#0369a1">
+        User ID aur Password enter karein. Default: <b>admin / admin</b>
+      </div>
+    </div>
+    <div class="form-group"><label>User ID</label><input id="loginUser" placeholder="admin"></div>
+    <div class="form-group"><label>Password</label><input id="loginPass" type="password" placeholder="admin"></div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button onclick="login()" style="flex:1;padding:12px;background:#1a73e8;color:#fff;border:none;border-radius:8px;font-weight:700">Login</button>
+      <button onclick="directLogin()" style="flex:1;padding:12px;background:var(--green);color:#fff;border:none;border-radius:8px;font-weight:700">Direct Login</button>
+    </div>
+  </div>
+
+  <!-- ================= MAIN APP ================= -->
+  <div id="app" class="hidden" style="display:flex;flex-direction:column;flex:1">
+
+    <!-- TOP HEADER -->
+    <header class="app-header">
+      <div class="header-left">
+        <button id="btnHeaderMenu" class="icon-btn" onclick="openDrawer()">☰</button>
+        <button id="btnHeaderBack" class="icon-btn hidden" onclick="goBackToStudents()">←</button>
+        <div class="header-title-box">
+          <div id="headerTitle" class="header-title">BSC EDUCATION</div>
+          <div id="headerFy" class="header-fy">FY: 2026-2027</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btnHeaderEdit" class="icon-btn hidden" onclick="editCurrentStudent()" title="Edit Student">✏️</button>
+      </div>
+    </header>
+
+    <!-- SCREEN 1: STUDENTS LIST VIEW -->
+    <div id="viewStudents" class="view-panel">
+      <div class="nav-tabs">
+        <div class="nav-tab active" onclick="switchMainTab('students')">Students</div>
+        <div class="nav-tab" onclick="switchMainTab('transactions')">Transactions</div>
+      </div>
+
+      <div class="search-filter-bar">
+        <div class="search-box">
+          <span>🔍</span>
+          <input id="searchStudentInput" placeholder="Search Student Name or Mobile..." oninput="renderStudentsList()">
+        </div>
+      </div>
+
+      <div class="content-body" id="studentsContainer"></div>
+    </div>
+
+    <!-- SCREEN 1B: TRANSACTIONS TAB (DAYBOOK STREAM) -->
+    <div id="viewTransactions" class="view-panel hidden">
+      <div class="nav-tabs">
+        <div class="nav-tab" onclick="switchMainTab('students')">Students</div>
+        <div class="nav-tab active" onclick="switchMainTab('transactions')">Transactions</div>
+      </div>
+      <div class="search-filter-bar">
+        <div class="search-box">
+          <span>🔍</span>
+          <input id="searchTxInput" placeholder="Search transactions..." oninput="renderDaybookStream()">
+        </div>
+      </div>
+      <div class="content-body" id="transactionsContainer"></div>
+    </div>
+
+    <!-- SCREEN 2: STUDENT LEDGER DETAIL VIEW -->
+    <div id="viewLedger" class="view-panel hidden">
+      <div class="ledger-hero-card">
+        <div class="hero-left">
+          <div class="hero-arrow-icon" id="ledgerHeroIcon">↙</div>
+          <div>
+            <div class="hero-label" id="ledgerHeroLabel">To Receive</div>
+            <div class="hero-balance" id="ledgerHeroAmount">₹ 0</div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <button class="hero-action-btn" onclick="openPdfPreviewScreen()">
+            <span style="font-size:22px">📄</span>
+            <span>Send PDF</span>
+          </button>
+          <button class="hero-action-btn" onclick="openQuickReminder()">
+            <span style="font-size:22px">📲</span>
+            <span>Remind</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="search-filter-bar" style="background:transparent">
+        <div class="search-box">
+          <span>🔍</span>
+          <input id="searchLedgerTx" placeholder="Search Amount or Particulars" oninput="renderLedgerTransactions()">
+        </div>
+      </div>
+
+      <div class="ledger-table-header">
+        <div>Particulars / Date</div>
+        <div>Debit (Fees)</div>
+        <div>Credit (Recv)</div>
+      </div>
+
+      <div class="content-body" id="ledgerTxContainer"></div>
+    </div>
+
+    <!-- SCREEN 2B: ATTENDANCE REGISTER -->
+    <div id="viewAttendance" class="view-panel hidden">
+      
+      <div class="nav-tabs" id="attTabsHeader" style="position:static">
+        <div class="nav-tab active" id="attTabBtnDaily" onclick="switchAttMode('daily')">Daily Log</div>
+        <div class="nav-tab" id="attTabBtnMonthly" onclick="switchAttMode('monthly')">Monthly Register 📊</div>
+      </div>
+
+      <!-- DAILY CONTROLS -->
+      <div id="attDailyControls">
+        <div class="search-filter-bar" style="background:#f8fafc;border-bottom:1px solid var(--border-color);justify-content:space-between;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:8px">
+            <label style="font-size:12px;font-weight:700;color:#374151">Date:</label>
+            <input type="date" id="attDateSelect" onchange="renderAttendanceScreen()" style="padding:6px 10px;border-radius:6px;border:1px solid #cbd5e1;font-weight:600">
+          </div>
+          <div style="display:flex;gap:4px">
+            <button onclick="markAllAttendance('P')" style="background:#dcfce7;color:#059669;border:1px solid #a7f3d0;padding:6px 8px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">All ✅</button>
+            <button onclick="markAllAttendance('A')" style="background:#fee2e2;color:#dc2626;border:1px solid #fecaca;padding:6px 8px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">All ❌</button>
+            <button onclick="markAllAttendance('H')" style="background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;padding:6px 8px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">🏖️ Day Holiday</button>
+          </div>
+        </div>
+
+        <div class="att-summary-box">
+          <div>
+            <span style="font-size:12px;color:var(--text-muted)">Total: <b id="attTotalCount">0</b></span>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <span style="font-size:12px;color:var(--green)">✅ P: <b id="attPresentCount">0</b></span>
+            <span style="font-size:12px;color:var(--red)">❌ A: <b id="attAbsentCount">0</b></span>
+            <span style="font-size:12px;color:#d97706">📝 L: <b id="attLeaveCount">0</b></span>
+            <span style="font-size:12px;color:#0284c7">🏖️ H: <b id="attHolidayCount">0</b></span>
+          </div>
+        </div>
+
+        <div class="content-body" id="attendanceContainer" style="padding-bottom:20px"></div>
+      </div>
+
+      <!-- MONTHLY REGISTER CONTROLS & TABLE -->
+      <div id="attMonthlyControls" class="hidden">
+        <div class="search-filter-bar" style="background:#f8fafc;border-bottom:1px solid var(--border-color);justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:8px">
+            <label style="font-size:12px;font-weight:700;color:#374151">Month:</label>
+            <input type="month" id="attMonthSelect" onchange="renderMonthlyRegister()" style="padding:6px 10px;border-radius:6px;border:1px solid #cbd5e1;font-weight:600">
+          </div>
+          <button onclick="window.print()" style="background:#eff6ff;color:#1e3a8a;border:1px solid #bfdbfe;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">
+            🖨️ Print Sheet
+          </button>
+        </div>
+
+        <div class="monthly-reg-wrapper">
+          <div class="monthly-reg-table-container">
+            <table class="monthly-reg-table" id="monthlyRegTable"></table>
+          </div>
+        </div>
+
+        <div style="padding:10px 14px;font-size:11px;color:#64748b;display:flex;gap:12px;flex-wrap:wrap">
+          <span><b style="color:#15803d">P</b>: Present</span>
+          <span><b style="color:#b91c1c">A</b>: Absent</span>
+          <span><b style="color:#b45309">L</b>: Leave</span>
+          <span><b style="color:#0369a1">H</b>: Holiday</span>
+          <span><b style="color:#64748b">S</b>: Sunday</span>
+          <span><b>-</b>: Unmarked</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SCREEN 3: EXACT PDF PREVIEW -->
+    <div id="viewPdfPreview" class="view-panel hidden">
+      <div class="pdf-preview-header">
+        <button class="icon-btn" onclick="closePdfPreview()" style="font-size:22px;color:#1e293b">←</button>
+        <h2>PDF Preview</h2>
+      </div>
+
+      <div class="pdf-preview-scroll-area">
+        <div class="pdf-sheet" id="pdfReportSheet">
+          <div class="pdf-institute-title" id="pdfInstituteName">BSC EDUCATION</div>
+          <div class="pdf-institute-sub" id="pdfInstituteDetails">Address: ARTOKA, Mobile No.: 918789119701 Email: bsc010111@gmail.com</div>
+          <hr class="pdf-divider">
+          
+          <div class="pdf-report-title">Student Statement Report</div>
+          <div class="pdf-meta-center">Student : <span id="pdfStudentName">-</span></div>
+          <div class="pdf-meta-center" style="font-weight:500;font-size:9.5px">Generated on : <span id="pdfGenTime">-</span></div>
+
+          <div class="pdf-balance-box">
+            <div class="p-amount" id="pdfCardAmount">₹ 0</div>
+            <div class="p-label" id="pdfCardLabel">To Receive</div>
+            <div class="p-badge-icon" id="pdfCardIcon">↙</div>
+          </div>
+
+          <table class="pdf-table">
+            <thead>
+              <tr>
+                <th class="col-date">Date</th>
+                <th class="col-part">Particulars</th>
+                <th class="col-debit">Debit</th>
+                <th class="col-credit">Credit</th>
+                <th class="col-bal">Balance</th>
+              </tr>
+            </thead>
+            <tbody id="pdfTableBody"></tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="2" style="text-align:center">Total</td>
+                <td class="col-debit" id="pdfTotalDebit">0</td>
+                <td class="col-credit" id="pdfTotalCredit">0</td>
+                <td class="col-bal" id="pdfFinalBal">-</td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <div id="pdfUpiBox" style="margin-top:12px;background:#f8fafc;padding:8px 10px;border-radius:6px;border:1px dashed #cbd5e1;font-size:9.5px;color:#334155">
+            💳 <b>UPI Payment ID:</b> <span id="pdfUpiIdDisplay">8789119701@ptyes</span> | <b>Name:</b> <span id="pdfUpiNameDisplay">Sujeet Yadav</span>
+          </div>
+
+          <div class="pdf-sheet-footer">
+            <span>Student Ledger Report</span>
+            <span id="pdfFooterBrand">Powered by BSC EDUCATION</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pdf-action-bar">
+        <button class="pdf-bar-btn" onclick="sharePdfStatement()">
+          <span style="font-size:22px">↗️</span>
+          <span>Share</span>
+        </button>
+        <div style="width:1px;height:24px;background:#cbd5e1"></div>
+        <button class="pdf-bar-btn" onclick="window.print()">
+          <span style="font-size:22px">🖨️</span>
+          <span>Print</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- FIXED BOTTOM ACTION BARS -->
+    <div id="barAddStudent" class="bottom-bar">
+      <button class="btn-add-student" onclick="openAddStudentModal()">
+        <span>+</span> Add Student
+      </button>
+    </div>
+
+    <div id="barLedgerActions" class="bottom-bar">
+      <button class="btn-receive-pmt" onclick="openAddTxModal('Receipt')">
+        <span>↙</span> Receive Payment
+      </button>
+      <button class="btn-give-credit" onclick="openAddTxModal('Fees Due')">
+        <span>↗</span> Add Fees
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= MODALS & DRAWERS ================= -->
+
+<div id="drawerOverlay" class="drawer-overlay" onclick="closeDrawer()"></div>
+<div id="navDrawer" class="drawer">
+  <div class="drawer-header">
+    <h3 id="drawerCompanyTitle" style="font-size:18px">BSC EDUCATION</h3>
+    <small id="drawerCompanySub" style="opacity:0.8">ARTOKA, BENGABAD, GIRIDIH</small>
+  </div>
+  <ul class="drawer-menu">
+    <li class="drawer-item" onclick="closeDrawer();openAttendanceScreen()">📅 Attendance Register</li>
+    <li class="drawer-item" onclick="closeDrawer();openCreateCompanyModal()">🏢 Create New Company</li>
+    <li class="drawer-item" onclick="closeDrawer();switchMainTab('students')">👥 Students List</li>
+    <li class="drawer-item" onclick="closeDrawer();switchMainTab('transactions')">📖 Daybook (Transactions)</li>
+    <li class="drawer-item" onclick="closeDrawer();openSettingsModal()">⚙️ Settings & Configuration</li>
+    <li class="drawer-item" onclick="closeDrawer();backupData()">💾 Backup Data</li>
+    <li class="drawer-item" style="color:var(--red);margin-top:20px" onclick="logout()">🚪 Logout</li>
+  </ul>
+</div>
+
+<!-- ATTENDANCE WHATSAPP MODAL -->
+<div id="attWaModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title" id="attWaTitle">📲 Send Attendance Alert</div>
+    <div style="background:#f3f4f6;padding:10px;border-radius:8px;font-size:13px;margin-bottom:12px;line-height:1.5">
+      Student: <b id="attWaStudentName">-</b><br>
+      Mobile: <b id="attWaStudentMob">-</b><br>
+      Status: <b id="attWaStatus">-</b>
+    </div>
+    <input type="hidden" id="attWaTargetPhone">
+    <div class="form-group">
+      <label>Drafted Message</label>
+      <textarea id="attWaMessage" rows="4"></textarea>
+    </div>
+    <div class="form-actions">
+      <button style="background:#e5e7eb" onclick="closeAttWaModal()">Cancel</button>
+      <button style="background:var(--green);color:#fff" onclick="sendAttWaMessage()">Send on WhatsApp 📲</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE COMPANY MODAL -->
+<div id="companyModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title">🏢 Create New Company</div>
+    <div class="form-group"><label>Company / Institute Name *</label><input id="newCompName" placeholder="e.g. STAR ACADEMY"></div>
+    <div class="form-group"><label>Address *</label><input id="newCompAddress" placeholder="e.g. Main Road, Ranchi"></div>
+    <div class="form-group"><label>Mobile No. *</label><input id="newCompMobile" placeholder="91XXXXXXXXXX"></div>
+    <div class="form-group"><label>Email</label><input id="newCompEmail" placeholder="academy@gmail.com"></div>
+    <div class="form-group"><label>Financial Year</label><input id="newCompFy" value="2026-2027"></div>
+    <div class="form-actions">
+      <button style="background:#e5e7eb" onclick="closeCreateCompanyModal()">Cancel</button>
+      <button style="background:var(--primary);color:#fff" onclick="saveNewCompany()">Create Company</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT STUDENT MODAL -->
+<div id="studentModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title" id="studentModalTitle">Add New Student</div>
+    <input type="hidden" id="smId">
+    <div class="form-group"><label>Student Name *</label><input id="smName" placeholder="e.g. Rahul Kumar"></div>
+    <div class="form-group"><label>Mobile (WhatsApp) *</label><input id="smMobile" placeholder="919xxxxxxxxx"></div>
+    <div class="form-group"><label>Class / Course</label><input id="smClass" placeholder="e.g. 10th / Science"></div>
+    <div class="form-group"><label>Monthly Fees (₹) *</label><input id="smFee" type="number" min="0" placeholder="2600"></div>
+    <div class="form-group"><label>Admission / Start Date *</label><input id="smAdmission" type="date"></div>
+    <div class="form-group"><label>Opening Balance (₹)</label><input id="smOpening" type="number" value="0"></div>
+    <div class="form-actions">
+      <button style="background:#e5e7eb" onclick="closeStudentModal()">Cancel</button>
+      <button style="background:var(--primary);color:#fff" onclick="saveStudent()">Save Student</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT TRANSACTION MODAL -->
+<div id="txModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title" id="txModalTitle">Transaction Entry</div>
+    <input type="hidden" id="txEditId">
+    <div class="form-group"><label>Transaction Type</label>
+      <select id="txTypeSelect" onchange="handleTxTypeChange()">
+        <option value="Fees Due">Fees Due (Debit)</option>
+        <option value="Receipt">Receipt (Credit)</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Date</label><input type="date" id="txDate" onchange="handleTxDateChange()"></div>
+    <div class="form-group"><label>Amount (₹) *</label><input type="number" id="txAmount" placeholder="0.00"></div>
+    <div class="form-group"><label>Particulars / Description</label><input id="txParticulars" placeholder="e.g. Fees due (Dec 2026)"></div>
+    <div id="txPayDetails" style="display:none">
+      <div class="form-group"><label>Payment Mode</label>
+        <select id="txMode">
+          <option>UPI</option><option>Cash</option><option>Bank Transfer</option><option>Cheque</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button id="btnDeleteTx" style="background:#fee2e2;color:#dc2626;display:none" onclick="deleteCurrentTx()">Delete</button>
+      <button style="background:#e5e7eb" onclick="closeTxModal()">Cancel</button>
+      <button id="txModalSubmitBtn" style="background:var(--green);color:#fff" onclick="saveTransactionEntry()">Save Entry</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title">⚙️ Settings & Configuration</div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">🏢 Company Details Alteration</div>
+      <div class="form-group"><label>Company / Institute Name</label><input id="setCompanyName"></div>
+      <div class="form-group"><label>Address</label><input id="setCompanyAddress"></div>
+      <div class="form-group"><label>Mobile No.</label><input id="setCompanyMobile"></div>
+      <div class="form-group"><label>Email</label><input id="setCompanyEmail"></div>
+    </div>
+
+    <!-- UPI PAYMENT SETTINGS -->
+    <div class="settings-section">
+      <div class="settings-section-title">💳 UPI Payment Settings (Personal Account)</div>
+      <div class="form-group"><label>UPI ID (VPA) *</label><input id="setUpiId" placeholder="8789119701@ptyes"></div>
+      <div class="form-group"><label>Account / Payee Name *</label><input id="setUpiName" placeholder="Sujeet Yadav"></div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">📅 Financial Year (FY)</div>
+      <div class="form-group">
+        <label>Current Financial Year</label>
+        <input id="setCompanyFy" placeholder="e.g. 2026-2027">
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">💾 Data Storage Path / Key</div>
+      <div class="form-group">
+        <label>Storage Path Key (localStorage)</label>
+        <input id="setStoragePath" placeholder="bsc_education_data_v4">
+      </div>
+      <button class="settings-tab-btn" onclick="recoverAllOldData()" style="width:100%;background:#e0f2fe;color:#0369a1;border:1px solid #7dd3fc">
+        🔍 Scan & Recover All Old Data
+      </button>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">📲 Payment Reminder Message Alter</div>
+      <div class="form-group">
+        <label>Template (Tags: {student}, {amount}, {company}, {payLink}, {upiId}, {upiName})</label>
+        <textarea id="setTplReminder" rows="5"></textarea>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">🧾 Payment Receipt Message Alter</div>
+      <div class="form-group">
+        <label>Template (Tags: {student}, {amount}, {company})</label>
+        <textarea id="setTplReceipt" rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">❌ Absent Alert WhatsApp Message</div>
+      <div class="form-group">
+        <label>Template (Tags: {student}, {date}, {company})</label>
+        <textarea id="setTplAbsent" rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">📝 Leave Alert WhatsApp Message</div>
+      <div class="form-group">
+        <label>Template (Tags: {student}, {date}, {company})</label>
+        <textarea id="setTplLeave" rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">🔐 Admin Login Password</div>
+      <div class="form-group"><label>User ID</label><input id="setAdminUser"></div>
+      <div class="form-group"><label>Password</label><input id="setAdminPass" type="password"></div>
+    </div>
+
+    <div class="form-actions">
+      <button style="background:#e5e7eb" onclick="closeSettingsModal()">Cancel</button>
+      <button style="background:var(--primary);color:#fff" onclick="saveSettings()">Save All Settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- REMINDER MODAL WITH UPI DETAILS -->
+<div id="remModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title">📲 Send Payment Reminder</div>
+    <div style="background:#f3f4f6;padding:10px;border-radius:8px;font-size:13px;margin-bottom:12px;line-height:1.5">
+      Student: <b id="remStudentName">-</b><br>
+      Total Due: <b id="remStudentDue" style="color:var(--red)">₹0</b><br>
+      <span style="font-size:11.5px;color:#334155">💳 Payee: <b>Sujeet Yadav</b> (8789119701@ptyes)</span>
+    </div>
+    <div class="form-group">
+      <label>Pre-filled Message (Online Payment Link Included)</label>
+      <textarea id="remMessage" rows="7"></textarea>
+    </div>
+    <div class="form-actions">
+      <button style="background:#e5e7eb" onclick="closeRemModal()">Cancel</button>
+      <button style="background:var(--green);color:#fff" onclick="sendWhatsAppReminder()">Open WhatsApp & Send</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="hidden"></div>
+
+<script>
+/* ================= PAYMENT ROUTING CHECK ================= */
+const urlParams = new URLSearchParams(window.location.search);
+const isPaymentPage = urlParams.get('pay') === '1';
+
+if (isPaymentPage) {
+  // Hide the application interface entirely
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.add('hidden');
+  
+  // Show the payment landing page
+  document.getElementById('paymentLandingScreen').classList.remove('hidden');
+  
+  // Grab params and populate page
+  const pa = urlParams.get('pa') || '';
+  const pn = urlParams.get('pn') || '';
+  const am = urlParams.get('am') || '0';
+  const tn = urlParams.get('tn') || '';
+  const st = urlParams.get('st') || 'Student';
+  const cn = urlParams.get('cn') || 'Institute';
+  
+  document.getElementById('payScreenCompanyTitle').textContent = cn;
+  document.getElementById('payScreenStudentName').textContent = st;
+  document.getElementById('payScreenAmount').textContent = '₹ ' + am;
+  document.getElementById('payScreenPayeeName').textContent = pn;
+  document.getElementById('payScreenUpiId').textContent = pa;
+  
+  // Build Native UPI URI for Tap to Pay
+  const upiLink = `upi://pay?pa=${pa}&pn=${pn}&am=${am}&cu=INR&tn=${tn}`;
+  document.getElementById('payScreenTapBtn').href = upiLink;
+  
+  // Request Dynamic QR image rendering using public API
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}&margin=10`;
+  document.getElementById('payScreenQrCode').src = qrUrl;
+} 
+
+/* ================= DATA ENGINE ================= */
+const KNOWN_STORAGE_KEYS = [
+  'bsc_education_data_v4',
+  'bsc_education_data_v5',
+  'bsc_education_data_v3',
+  'bsc_education_data_v2',
+  'bsc_education_data'
+];
+
+let ACTIVE_KEY = localStorage.getItem('bsc_active_storage_path') || 'bsc_education_data_v4';
+let DB = loadData();
+let activeStudentId = null;
+
+function loadData(){
+  let raw = localStorage.getItem(ACTIVE_KEY);
+  let parsed = null;
+  if(raw){
+    try{ parsed = JSON.parse(raw); }catch(e){}
+  }
+
+  if(!parsed || !parsed.students || parsed.students.length === 0){
+    for(let k of KNOWN_STORAGE_KEYS){
+      const testRaw = localStorage.getItem(k);
+      if(testRaw){
+        try{
+          const testObj = JSON.parse(testRaw);
+          if(testObj.students && testObj.students.length > 0){
+            parsed = testObj;
+            ACTIVE_KEY = k;
+            localStorage.setItem('bsc_active_storage_path', k);
+            break;
+          }
+        }catch(e){}
+      }
+    }
+  }
+
+  if(!parsed) parsed = {};
+  if(!parsed.students) parsed.students = [];
+  if(!parsed.transactions) parsed.transactions = [];
+  if(!parsed.attendance) parsed.attendance = {};
+  
+  let dataChanged = false;
+
+  // Personal UPI configuration (Sujeet Yadav)
+  if(!parsed.upi || !parsed.upi.id){
+    parsed.upi = {
+      id: '8789119701@ptyes',
+      name: 'Sujeet Yadav'
+    };
+    dataChanged = true;
+  }
+
+  parsed.transactions.forEach(t => {
+    if(t.type === 'Receipt'){
+      if(!t.particulars || /fees\s*due/i.test(t.particulars) || /payment\s*received/i.test(t.particulars) || /^receipt$/i.test(t.particulars.trim())){
+        if(t.particulars !== 'Payment Received'){
+          t.particulars = 'Payment Received';
+          dataChanged = true;
+        }
+      }
+    }
+  });
+
+  if(!parsed.company) parsed.company = {
+    name: 'BSC EDUCATION',
+    address: 'ARTOKA, BENGABAD, GIRIDIH, JHARKHAND',
+    mobile: '918789119701',
+    email: 'bsc010111@gmail.com',
+    fy: '2026-2027'
+  };
+
+  const defaultReminderTpl = `{student} ji, aapki {company} ki fees {amount} due hai. Kripya samay par jama karein.\n\n💳 Online Payment Link (QR Code & Tap to Pay):\n{payLink}\n\n👉 UPI ID: {upiId}\n👉 Account Name: {upiName}\n\n(Note: Payment karne ke baad screenshot isi WhatsApp number par share karein, taaki aapka payment credit kiya ja sake.)\nDhanyawad! - {company}`;
+
+  if(!parsed.templates) parsed.templates = {};
+  if(!parsed.templates.reminder || !parsed.templates.reminder.includes('{payLink}') || parsed.templates.reminder.includes('Direct UPI Payment Link:')){
+    parsed.templates.reminder = defaultReminderTpl;
+    dataChanged = true;
+  }
+  if(!parsed.templates.receipt){
+    parsed.templates.receipt = '{student} ji, aapki fees {amount} prapt hui. Dhanyawad! - {company}';
+    dataChanged = true;
+  }
+  if(!parsed.templates.absentAlert){
+    parsed.templates.absentAlert = 'Aadarniya Abhibhavak ji, aapka bacha {student} aaj दिनांक {date} ko {company} me anupasthit (Absent) hai. Kripya dhyan dein. - {company}';
+    dataChanged = true;
+  }
+  if(!parsed.templates.leaveAlert){
+    parsed.templates.leaveAlert = 'Aadarniya Abhibhavak ji, {student} ka aaj दिनांक {date} ka avkash (Leave) darj kiya gaya hai. Dhanyawad! - {company}';
+    dataChanged = true;
+  }
+
+  if(!parsed.login) parsed.login = {user:'admin', pass:'admin'};
+
+  if(dataChanged){
+    try{ localStorage.setItem(ACTIVE_KEY, JSON.stringify(parsed)); }catch(e){}
+  }
+
+  return parsed;
+}
+
+function saveData(){
+  localStorage.setItem(ACTIVE_KEY, JSON.stringify(DB));
+  localStorage.setItem('bsc_active_storage_path', ACTIVE_KEY);
+  applyCompanyBranding();
+}
+
+function uid(){return Date.now() + Math.random().toString(16).slice(2);}
+
+function today(){
+  const dt = new Date();
+  const y = dt.getFullYear();
+  const m = String(dt.getMonth() + 1).padStart(2, '0');
+  const d = String(dt.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function toast(m){
+  const t = document.getElementById('toast');
+  t.textContent = m;
+  t.classList.remove('hidden');
+  setTimeout(()=>t.classList.add('hidden'), 3200);
+}
+function money(n){return '₹ ' + Number(n||0).toLocaleString('en-IN');}
+
+function fmtShortDate(d){
+  if(!d) return '';
+  const dt = new Date(d);
+  if(isNaN(dt.getTime())) return d;
+  const day = dt.getDate();
+  const m = dt.getMonth() + 1;
+  const y = String(dt.getFullYear()).slice(-2);
+  return `${day}.${m}.${y}`;
+}
+
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function parseYMD(dateStr){
+  if(!dateStr) return null;
+  const parts = String(dateStr).split('T')[0].split('-');
+  if(parts.length === 3){
+    const y = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10) - 1;
+    const d = parseInt(parts[2], 10);
+    if(!isNaN(y) && !isNaN(m) && !isNaN(d)){
+      return { year: y, month: m, day: d };
+    }
+  }
+  const dt = new Date(dateStr);
+  if(!isNaN(dt.getTime())){
+    return { year: dt.getFullYear(), month: dt.getMonth(), day: dt.getDate() };
+  }
+  return null;
+}
+
+function getMonthYearStr(dateStr){
+  const p = parseYMD(dateStr || today());
+  if(!p) return '';
+  return `${MONTH_NAMES[p.month]} ${p.year}`;
+}
+
+function formatParticularsWithMonth(part, dateStr, type){
+  const myStr = getMonthYearStr(dateStr);
+  const isReceipt = (type === 'Receipt');
+
+  if(isReceipt){
+    if(!part || /fees\s*due/i.test(part) || /^receipt$/i.test(part.trim()) || /payment\s*received/i.test(part)){
+      return 'Payment Received';
+    }
+    return part.replace(/\s*\([A-Za-z]{3}\s*\d{4}\)/gi, '').trim();
+  }
+
+  if(!part) return 'Fees due (' + myStr + ')';
+  if(part.includes('(Month)')){
+    return part.replace(/\(Month\)/gi, `(${myStr})`);
+  }
+  if(part.trim().toLowerCase() === 'fees due'){
+    return `Fees due (${myStr})`;
+  }
+  return part;
+}
+
+/* ================= WORKING DAYS CALCULATION ================= */
+const STANDARD_HOLIDAYS_MD = [
+  '1-26', '5-1', '8-15', '10-2', '12-25'
+];
+
+function isHolidayOrSunday(year, monthIndex, day){
+  const dt = new Date(year, monthIndex, day);
+  if(dt.getDay() === 0) return true;
+
+  const mdKey = `${monthIndex + 1}-${day}`;
+  if(STANDARD_HOLIDAYS_MD.includes(mdKey)) return true;
+
+  if(DB.holidays && Array.isArray(DB.holidays)){
+    const ymd = `${year}-${String(monthIndex+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    if(DB.holidays.includes(ymd)) return true;
+  }
+  return false;
+}
+
+function getWorkingDaysInMonth(year, monthIndex){
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  let count = 0;
+  for(let d = 1; d <= daysInMonth; d++){
+    if(!isHolidayOrSunday(year, monthIndex, d)) count++;
+  }
+  return count > 0 ? count : daysInMonth;
+}
+
+function getWorkingDaysFrom(year, monthIndex, startDay){
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  let count = 0;
+  for(let d = startDay; d <= daysInMonth; d++){
+    if(!isHolidayOrSunday(year, monthIndex, d)) count++;
+  }
+  return count;
+}
+
+/* ================= AUTO-SYNC & DEDUPLICATION ================= */
+function isMonthlyFeeTx(t){
+  if(t.type !== 'Fees Due') return false;
+  const p = (t.particulars || '').trim();
+  if(/opening\s*balance/i.test(p)) return false;
+  return true;
+}
+
+function getTxMonthYear(t){
+  if(t.particulars){
+    const match = t.particulars.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})/i);
+    if(match){
+      const mStr = match[1].toLowerCase().slice(0,3);
+      const mIdx = MONTH_NAMES.findIndex(m => m.toLowerCase() === mStr);
+      const y = parseInt(match[2], 10);
+      if(mIdx !== -1 && !isNaN(y)){
+        return { year: y, month: mIdx, key: `${y}-${String(mIdx + 1).padStart(2, '0')}` };
+      }
+    }
+  }
+  const p = parseYMD(t.date);
+  if(p){
+    return { year: p.year, month: p.month, key: `${p.year}-${String(p.month + 1).padStart(2, '0')}` };
+  }
+  return null;
+}
+
+function autoSyncAndDeduplicateFees(silent = false){
+  if(!DB || !DB.students || !DB.students.length) return { added: 0, deleted: 0, updated: 0 };
+
+  const todayStr = today();
+  const now = new Date();
+  const currYear = now.getFullYear();
+  const currMonth = now.getMonth();
+
+  let totalAdded = 0;
+  let totalDeleted = 0;
+  let totalUpdated = 0;
+  let dataModified = false;
+
+  const pad = n => String(n).padStart(2, '0');
+
+  const futureTxIds = new Set();
+  DB.transactions.forEach(t => {
+    if(t.type === 'Fees Due' && isMonthlyFeeTx(t) && t.date > todayStr){
+      futureTxIds.add(t.id);
+    }
+  });
+  if(futureTxIds.size > 0){
+    DB.transactions = DB.transactions.filter(t => !futureTxIds.has(t.id));
+    totalDeleted += futureTxIds.size;
+    dataModified = true;
+  }
+
+  const seenTxSignatures = new Set();
+  const globalDuplicatesToDelete = new Set();
+
+  DB.transactions.forEach(t => {
+    if(t.type === 'Fees Due' && !/opening\s*balance/i.test(t.particulars || '')){
+      const my = getTxMonthYear(t);
+      if(my && t.studentId){
+        const sig = `${t.studentId}_${my.key}`;
+        if(seenTxSignatures.has(sig)){
+          globalDuplicatesToDelete.add(t.id);
+        } else {
+          seenTxSignatures.add(sig);
+        }
+      }
+    }
+  });
+
+  if(globalDuplicatesToDelete.size > 0){
+    DB.transactions = DB.transactions.filter(t => !globalDuplicatesToDelete.has(t.id));
+    totalDeleted += globalDuplicatesToDelete.size;
+    dataModified = true;
+  }
+
+  DB.students.forEach(s => {
+    if(!s.admissionDate || !s.fee || Number(s.fee) <= 0) return;
+
+    const adm = parseYMD(s.admissionDate);
+    if(!adm) return;
+
+    const admYear = adm.year;
+    const admMonth = adm.month;
+    const admDay = adm.day;
+
+    let iterY = admYear;
+    let iterM = admMonth;
+
+    while(iterY < currYear || (iterY === currYear && iterM <= currMonth)){
+      const monthKey = `${iterY}-${pad(iterM + 1)}`;
+      const myStr = `${MONTH_NAMES[iterM]} ${iterY}`;
+      const lastDayOfMonth = new Date(iterY, iterM + 1, 0).getDate();
+      const txDueDateStr = `${iterY}-${pad(iterM + 1)}-${pad(lastDayOfMonth)}`;
+
+      if(txDueDateStr > todayStr){
+        break;
+      }
+
+      let expectedFee = Number(s.fee || 0);
+      let expectedPart = `Fees due (${myStr})`;
+
+      if(iterY === admYear && iterM === admMonth && admDay > 1){
+        const totalWorking = getWorkingDaysInMonth(iterY, iterM);
+        const attendedWorking = getWorkingDaysFrom(iterY, iterM, admDay);
+        if(totalWorking > 0){
+          const perDayRate = expectedFee / totalWorking;
+          expectedFee = Math.round(attendedWorking * perDayRate);
+          expectedPart = `Fees due (${myStr}) [${attendedWorking}/${totalWorking} Days]`;
+        }
+      }
+
+      const existingEntries = DB.transactions.filter(t => 
+        String(t.studentId) === String(s.id) && 
+        isMonthlyFeeTx(t) && 
+        (getTxMonthYear(t)?.key === monthKey)
+      );
+
+      if(existingEntries.length > 1){
+        for(let i = 1; i < existingEntries.length; i++){
+          DB.transactions = DB.transactions.filter(t => t.id !== existingEntries[i].id);
+          totalDeleted++;
+          dataModified = true;
+        }
+      }
+
+      if(existingEntries.length >= 1){
+        const primaryEntry = existingEntries[0];
+        let entryChanged = false;
+
+        if(primaryEntry.date !== txDueDateStr){
+          primaryEntry.date = txDueDateStr;
+          entryChanged = true;
+        }
+
+        if(iterY === admYear && iterM === admMonth && admDay > 1){
+          if(primaryEntry.amount !== expectedFee || !primaryEntry.particulars.includes('[')){
+            primaryEntry.amount = expectedFee;
+            primaryEntry.particulars = expectedPart;
+            entryChanged = true;
+          }
+        }
+
+        if(entryChanged){
+          totalUpdated++;
+          dataModified = true;
+        }
+      } else {
+        const newTx = {
+          id: uid(),
+          studentId: s.id,
+          studentName: s.name,
+          type: 'Fees Due',
+          date: txDueDateStr,
+          amount: expectedFee,
+          particulars: expectedPart,
+          mode: ''
+        };
+
+        DB.transactions.push(newTx);
+        totalAdded++;
+        dataModified = true;
+      }
+
+      iterM++;
+      if(iterM > 11){
+        iterM = 0;
+        iterY++;
+      }
+    }
+  });
+
+  if(dataModified){
+    saveData();
+  }
+
+  return { added: totalAdded, deleted: totalDeleted, updated: totalUpdated };
+}
+
+function recoverAllOldData(){
+  let recoveredCount = 0;
+  for(let k of KNOWN_STORAGE_KEYS){
+    const d = localStorage.getItem(k);
+    if(d){
+      try{
+        const obj = JSON.parse(d);
+        if(obj.students && obj.students.length > 0){
+          obj.students.forEach(s => {
+            if(!DB.students.some(existing => existing.id === s.id)){
+              DB.students.push(s);
+              recoveredCount++;
+            }
+          });
+          if(obj.transactions){
+            obj.transactions.forEach(t => {
+              if(!DB.transactions.some(existing => existing.id === t.id)){
+                DB.transactions.push(t);
+              }
+            });
+          }
+        }
+      }catch(e){}
+    }
+  }
+  saveData();
+  autoSyncAndDeduplicateFees(true);
+  renderStudentsList();
+  renderDaybookStream();
+  toast(recoveredCount > 0 ? `${recoveredCount} students ka data recover ho gaya!` : 'Sara purana data maujud hai!');
+}
+
+/* ================= ATTENDANCE REGISTER ENGINE ================= */
+let currentAttMode = 'daily';
+
+function openAttendanceScreen(){
+  activeStudentId = null;
+  document.getElementById('viewStudents').classList.add('hidden');
+  document.getElementById('viewTransactions').classList.add('hidden');
+  document.getElementById('viewLedger').classList.add('hidden');
+  document.getElementById('viewPdfPreview').classList.add('hidden');
+  document.getElementById('viewAttendance').classList.remove('hidden');
+
+  document.getElementById('btnHeaderMenu').classList.add('hidden');
+  document.getElementById('btnHeaderBack').classList.remove('hidden');
+  document.getElementById('btnHeaderEdit').classList.add('hidden');
+  document.getElementById('headerTitle').textContent = 'Attendance Register';
+  document.getElementById('headerFy').textContent = `Register`;
+
+  document.getElementById('barAddStudent').style.display = 'none';
+  document.getElementById('barLedgerActions').style.display = 'none';
+
+  if(!document.getElementById('attDateSelect').value){
+    document.getElementById('attDateSelect').value = today();
+  }
+  if(!document.getElementById('attMonthSelect').value){
+    document.getElementById('attMonthSelect').value = today().slice(0, 7);
+  }
+
+  switchAttMode(currentAttMode);
+}
+
+function switchAttMode(mode){
+  currentAttMode = mode;
+  const isDaily = (mode === 'daily');
+
+  document.getElementById('attTabBtnDaily').classList.toggle('active', isDaily);
+  document.getElementById('attTabBtnMonthly').classList.toggle('active', !isDaily);
+
+  document.getElementById('attDailyControls').classList.toggle('hidden', !isDaily);
+  document.getElementById('attMonthlyControls').classList.toggle('hidden', isDaily);
+
+  if(isDaily){
+    renderAttendanceScreen();
+  } else {
+    renderMonthlyRegister();
+  }
+}
+
+function renderAttendanceScreen(){
+  const dateVal = document.getElementById('attDateSelect').value || today();
+  if(!DB.attendance) DB.attendance = {};
+  if(!DB.attendance[dateVal]) DB.attendance[dateVal] = {};
+
+  const dailyRecord = DB.attendance[dateVal];
+  const list = DB.students || [];
+
+  let pCount = 0;
+  let aCount = 0;
+  let lCount = 0;
+  let hCount = 0;
+
+  list.forEach(s => {
+    const status = dailyRecord[s.id];
+    if(status === 'P') pCount++;
+    else if(status === 'A') aCount++;
+    else if(status === 'L') lCount++;
+    else if(status === 'H') hCount++;
+  });
+
+  document.getElementById('attTotalCount').textContent = list.length;
+  document.getElementById('attPresentCount').textContent = pCount;
+  document.getElementById('attAbsentCount').textContent = aCount;
+  document.getElementById('attLeaveCount').textContent = lCount;
+  document.getElementById('attHolidayCount').textContent = hCount;
+
+  const container = document.getElementById('attendanceContainer');
+  if(!list.length){
+    container.innerHTML = '<div style="padding:40px;text-align:center;color:#9ca3af">Koi student record nahi mila</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(s => {
+    const status = dailyRecord[s.id] || '';
+    const isP = (status === 'P');
+    const isA = (status === 'A');
+    const isL = (status === 'L');
+    const isH = (status === 'H');
+
+    return `
+      <div class="att-card">
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827">${s.name}</div>
+          <div style="font-size:12px;color:#6b7280;margin-top:2px">${s.cls ? s.cls + ' • ' : ''}${s.mobile || ''}</div>
+        </div>
+        <div class="att-btn-group">
+          <button class="att-btn ${isP ? 'p-active' : ''}" onclick="setAttendance('${s.id}', 'P')" title="Present">P</button>
+          <button class="att-btn ${isA ? 'a-active' : ''}" onclick="setAttendance('${s.id}', 'A')" title="Absent">A</button>
+          <button class="att-btn ${isL ? 'l-active' : ''}" onclick="setAttendance('${s.id}', 'L')" title="Leave">L</button>
+          <button class="att-btn ${isH ? 'h-active' : ''}" onclick="setAttendance('${s.id}', 'H')" title="Holiday">H</button>
+          ${(isA || isL) ? `<button class="att-wa-btn" onclick="openAttWaModalFor('${s.id}', '${status}')" title="Send WhatsApp Alert">📲</button>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function setAttendance(studentId, status){
+  const dateVal = document.getElementById('attDateSelect').value || today();
+  if(!DB.attendance) DB.attendance = {};
+  if(!DB.attendance[dateVal]) DB.attendance[dateVal] = {};
+
+  if(DB.attendance[dateVal][studentId] === status){
+    delete DB.attendance[dateVal][studentId];
+  } else {
+    DB.attendance[dateVal][studentId] = status;
+    if(status === 'A' || status === 'L'){
+      openAttWaModalFor(studentId, status);
+    }
+  }
+  saveData();
+  renderAttendanceScreen();
+}
+
+function markAllAttendance(status){
+  const dateVal = document.getElementById('attDateSelect').value || today();
+  if(!DB.attendance) DB.attendance = {};
+  if(!DB.attendance[dateVal]) DB.attendance[dateVal] = {};
+
+  (DB.students || []).forEach(s => {
+    DB.attendance[dateVal][s.id] = status;
+  });
+  saveData();
+  renderAttendanceScreen();
+  toast(status === 'P' ? 'Sabhi students ko Present (P) mark kiya gaya' : (status === 'H' ? 'Pura din Holiday (H) mark kiya gaya' : 'Sabhi students ko Absent (A) mark kiya gaya'));
+}
+
+/* ================= ATTENDANCE WHATSAPP ALERT ================= */
+function openAttWaModalFor(studentId, status){
+  const s = DB.students.find(x => x.id === studentId);
+  if(!s) return;
+
+  const dateVal = document.getElementById('attDateSelect').value || today();
+  const formattedDate = fmtShortDate(dateVal);
+  const statusText = (status === 'A') ? 'अनुपस्थित (Absent)' : 'अवकाश (Leave)';
+
+  document.getElementById('attWaStudentName').textContent = s.name;
+  document.getElementById('attWaStudentMob').textContent = s.mobile || 'No Mobile';
+  document.getElementById('attWaStatus').textContent = statusText;
+  document.getElementById('attWaTargetPhone').value = s.mobile || '';
+
+  let tpl = '';
+  if(status === 'A'){
+    tpl = (DB.templates && DB.templates.absentAlert) ? DB.templates.absentAlert : 'Aadarniya Abhibhavak ji, aapka bacha {student} aaj दिनांक {date} ko {company} me anupasthit (Absent) hai. Kripya dhyan dein. - {company}';
+  } else {
+    tpl = (DB.templates && DB.templates.leaveAlert) ? DB.templates.leaveAlert : 'Aadarniya Abhibhavak ji, {student} ka aaj दिनांक {date} ka avkash (Leave) darj kiya gaya hai. Dhanyawad! - {company}';
+  }
+
+  const msg = tpl
+    .replace(/{student}/g, s.name)
+    .replace(/{date}/g, formattedDate)
+    .replace(/{company}/g, DB.company.name);
+
+  document.getElementById('attWaMessage').value = msg;
+  document.getElementById('attWaModal').style.display = 'flex';
+}
+
+function closeAttWaModal(){
+  document.getElementById('attWaModal').style.display = 'none';
+}
+
+function sendAttWaMessage(){
+  let phone = document.getElementById('attWaTargetPhone').value.trim();
+  if(!phone){
+    toast('Student ka mobile number uplabdh nahi hai!');
+    return;
+  }
+  phone = phone.replace(/[^0-9]/g, '');
+  if(phone.length === 10) phone = '91' + phone;
+
+  const msg = document.getElementById('attWaMessage').value;
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
+  window.open(whatsappUrl, '_blank');
+  closeAttWaModal();
+}
+
+/* ================= MONTHLY ATTENDANCE REGISTER RENDERING ================= */
+function renderMonthlyRegister(){
+  const monthVal = document.getElementById('attMonthSelect').value || today().slice(0, 7);
+  const [yStr, mStr] = monthVal.split('-');
+  const year = parseInt(yStr, 10);
+  const monthIdx = parseInt(mStr, 10) - 1;
+
+  const totalDays = new Date(year, monthIdx + 1, 0).getDate();
+  const students = DB.students || [];
+  const table = document.getElementById('monthlyRegTable');
+
+  if(!students.length){
+    table.innerHTML = '<tr><td style="padding:30px;color:#9ca3af">Koi student record nahi hai</td></tr>';
+    return;
+  }
+
+  const pad = n => String(n).padStart(2, '0');
+
+  let headerHtml = '<thead><tr>';
+  headerHtml += '<th class="col-stu-name">Student Name</th>';
+  for(let d = 1; d <= totalDays; d++){
+    const dt = new Date(year, monthIdx, d);
+    const isSun = (dt.getDay() === 0);
+    headerHtml += `<th style="${isSun ? 'background:#fee2e2;color:#b91c1c' : ''}">${d}</th>`;
+  }
+  headerHtml += '<th class="col-stat-p">P</th><th class="col-stat-a">A</th><th class="col-stat-l">L</th><th style="min-width:35px">%</th></tr></thead>';
+
+  let bodyHtml = '<tbody>';
+
+  students.forEach(s => {
+    let pCount = 0;
+    let aCount = 0;
+    let lCount = 0;
+
+    let rowHtml = `<tr><td class="col-stu-name" title="${s.cls || ''}">${s.name}</td>`;
+
+    for(let d = 1; d <= totalDays; d++){
+      const dateKey = `${year}-${pad(monthIdx + 1)}-${pad(d)}`;
+      const dt = new Date(year, monthIdx, d);
+      const isSun = (dt.getDay() === 0);
+      const isHol = isHolidayOrSunday(year, monthIdx, d) && !isSun;
+
+      const dayStatus = DB.attendance?.[dateKey]?.[s.id];
+
+      if(dayStatus === 'P'){
+        pCount++;
+        rowHtml += `<td class="cell-p">P</td>`;
+      } else if(dayStatus === 'A'){
+        aCount++;
+        rowHtml += `<td class="cell-a">A</td>`;
+      } else if(dayStatus === 'L'){
+        lCount++;
+        rowHtml += `<td class="cell-l">L</td>`;
+      } else if(dayStatus === 'H'){
+        rowHtml += `<td class="cell-h">H</td>`;
+      } else if(isSun){
+        rowHtml += `<td class="cell-s">S</td>`;
+      } else if(isHol){
+        rowHtml += `<td class="cell-h">H</td>`;
+      } else {
+        rowHtml += `<td style="color:#cbd5e1">-</td>`;
+      }
+    }
+
+    const totalActiveDays = pCount + aCount + lCount;
+    const percentage = totalActiveDays > 0 ? Math.round((pCount / totalActiveDays) * 100) : 0;
+
+    rowHtml += `<td class="col-stat-p">${pCount}</td>`;
+    rowHtml += `<td class="col-stat-a">${aCount}</td>`;
+    rowHtml += `<td class="col-stat-l">${lCount}</td>`;
+    rowHtml += `<td style="font-weight:700;color:${percentage >= 75 ? 'var(--green)' : 'var(--orange-dark)'}">${percentage}%</td>`;
+    rowHtml += '</tr>';
+
+    bodyHtml += rowHtml;
+  });
+
+  bodyHtml += '</tbody>';
+  table.innerHTML = headerHtml + bodyHtml;
+}
+
+/* ================= BRANDING ================= */
+function applyCompanyBranding(){
+  const c = DB.company || {name:'BSC EDUCATION', address:'ARTOKA', mobile:'918789119701', email:'bsc010111@gmail.com', fy:'2026-2027'};
+  document.getElementById('pageTitle').textContent = c.name;
+  document.getElementById('loginCompanyTitle').textContent = c.name;
+  document.getElementById('loginCompanySub').textContent = c.address;
+  document.getElementById('drawerCompanyTitle').textContent = c.name;
+  document.getElementById('drawerCompanySub').textContent = c.address;
+  document.getElementById('headerFy').textContent = `FY: ${c.fy || '2026-2027'}`;
+  
+  if(!activeStudentId && document.getElementById('viewAttendance').classList.contains('hidden')){
+    document.getElementById('headerTitle').textContent = c.name;
+  }
+  document.getElementById('pdfInstituteName').textContent = c.name;
+  document.getElementById('pdfInstituteDetails').textContent = `Address: ${c.address}, Mobile No.: ${c.mobile} Email: ${c.email}`;
+  document.getElementById('pdfFooterBrand').textContent = `Powered by ${c.name}`;
+}
+
+/* ================= AUTHENTICATION ================= */
+function login(){
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  if(!DB.login || (DB.login.user===u && DB.login.pass===p)){
+    openApp();
+  } else {
+    toast('Galat User ID ya Password!');
+  }
+}
+function directLogin(){ openApp(); }
+
+function openApp(){
+  applyCompanyBranding();
+  const res = autoSyncAndDeduplicateFees(false);
+
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  renderStudentsList();
+  renderDaybookStream();
+
+  if(res.added > 0 || res.deleted > 0 || res.updated > 0){
+    toast(`ऑटो-अपडेट: ${res.added} फ़ीस जुड़ी, ${res.deleted} अमान्य/डुप्लीकेट हटाए गए.`);
+  }
+}
+
+function logout(){
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('loginScreen').classList.remove('hidden');
+  closeDrawer();
+}
+
+/* ================= NAVIGATION ================= */
+function switchMainTab(tab){
+  activeStudentId = null;
+  document.getElementById('viewStudents').classList.toggle('hidden', tab !== 'students');
+  document.getElementById('viewTransactions').classList.toggle('hidden', tab !== 'transactions');
+  document.getElementById('viewLedger').classList.add('hidden');
+  document.getElementById('viewAttendance').classList.add('hidden');
+  document.getElementById('viewPdfPreview').classList.add('hidden');
+
+  document.getElementById('btnHeaderMenu').classList.remove('hidden');
+  document.getElementById('btnHeaderBack').classList.add('hidden');
+  document.getElementById('btnHeaderEdit').classList.add('hidden');
+  document.getElementById('headerTitle').textContent = DB.company.name;
+  document.getElementById('headerFy').textContent = `FY: ${DB.company.fy || '2026-2027'}`;
+
+  document.getElementById('barAddStudent').style.display = (tab === 'students') ? 'block' : 'none';
+  document.getElementById('barLedgerActions').style.display = 'none';
+
+  if(tab === 'students') renderStudentsList();
+  if(tab === 'transactions') renderDaybookStream();
+}
+
+function openStudentLedger(studentId){
+  activeStudentId = studentId;
+  const s = DB.students.find(x => x.id === studentId);
+  if(!s) return;
+
+  document.getElementById('viewStudents').classList.add('hidden');
+  document.getElementById('viewTransactions').classList.add('hidden');
+  document.getElementById('viewAttendance').classList.add('hidden');
+  document.getElementById('viewLedger').classList.remove('hidden');
+  document.getElementById('viewPdfPreview').classList.add('hidden');
+
+  document.getElementById('btnHeaderMenu').classList.add('hidden');
+  document.getElementById('btnHeaderBack').classList.remove('hidden');
+  document.getElementById('btnHeaderEdit').classList.remove('hidden');
+  document.getElementById('headerTitle').textContent = s.name;
+  document.getElementById('headerFy').textContent = `Student Ledger`;
+
+  document.getElementById('barAddStudent').style.display = 'none';
+  document.getElementById('barLedgerActions').style.display = 'grid';
+
+  renderLedgerHero(s);
+  renderLedgerTransactions();
+}
+
+function goBackToStudents(){
+  switchMainTab('students');
+}
+
+/* ================= STUDENTS LOGIC ================= */
+function getStudentDue(s){
+  let bal = 0;
+  DB.transactions.forEach(t=>{
+    if(t.studentId === s.id){
+      if(t.type === 'Fees Due') bal += Number(t.amount||0);
+      if(t.type === 'Receipt') bal -= Number(t.amount||0);
+    }
+  });
+  return Math.round(bal*100)/100;
+}
+
+function renderStudentsList(){
+  const q = (document.getElementById('searchStudentInput').value||'').toLowerCase();
+  const list = DB.students.filter(s => s.name.toLowerCase().includes(q) || (s.mobile||'').includes(q));
+  const container = document.getElementById('studentsContainer');
+
+  if(!list.length){
+    container.innerHTML = `
+      <div style="padding:40px 20px;text-align:center;color:#9ca3af">
+        Koi student record nahi mila.<br>
+        <button class="settings-tab-btn" onclick="recoverAllOldData()" style="margin-top:12px">
+          🔍 Purana Data Check / Recover Karein
+        </button>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(s=>{
+    const due = getStudentDue(s);
+    let amountClass = due > 0 ? 'pos' : (due < 0 ? 'neg' : 'zero');
+    return `
+      <div class="student-item" onclick="openStudentLedger('${s.id}')">
+        <div class="student-info">
+          <div class="student-name">${s.name}</div>
+          <div class="student-sub">${s.cls ? s.cls + ' • ' : ''}${fmtShortDate(s.admissionDate)}</div>
+        </div>
+        <div class="student-right">
+          <div class="student-amount ${amountClass}">${Math.abs(due)}</div>
+          <button class="reminder-circle-btn" onclick="event.stopPropagation();openQuickReminderFor('${s.id}')" title="Reminder">
+            🔔
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openAddStudentModal(){
+  document.getElementById('studentModalTitle').textContent = 'Add New Student';
+  document.getElementById('smId').value = '';
+  document.getElementById('smName').value = '';
+  document.getElementById('smMobile').value = '';
+  document.getElementById('smClass').value = '';
+  document.getElementById('smFee').value = '';
+  document.getElementById('smAdmission').value = today();
+  document.getElementById('smOpening').value = 0;
+  document.getElementById('studentModal').style.display = 'flex';
+}
+
+function editCurrentStudent(){
+  if(!activeStudentId) return;
+  const s = DB.students.find(x => x.id === activeStudentId);
+  if(!s) return;
+  document.getElementById('studentModalTitle').textContent = 'Edit Student Details';
+  document.getElementById('smId').value = s.id;
+  document.getElementById('smName').value = s.name;
+  document.getElementById('smMobile').value = s.mobile || '';
+  document.getElementById('smClass').value = s.cls || '';
+  document.getElementById('smFee').value = s.fee;
+  document.getElementById('smAdmission').value = s.admissionDate;
+  document.getElementById('smOpening').value = s.opening || 0;
+  document.getElementById('studentModal').style.display = 'flex';
+}
+
+function closeStudentModal(){ document.getElementById('studentModal').style.display = 'none'; }
+
+function saveStudent(){
+  const name = document.getElementById('smName').value.trim();
+  const mob = document.getElementById('smMobile').value.trim();
+  const fee = Number(document.getElementById('smFee').value||0);
+  const adm = document.getElementById('smAdmission').value;
+  const op = Number(document.getElementById('smOpening').value||0);
+  const id = document.getElementById('smId').value || uid();
+
+  if(!name || fee <= 0 || !mob){
+    toast('Student Name, Mobile aur Fee bharein');
+    return;
+  }
+
+  const existingIndex = DB.students.findIndex(x => x.id === id);
+  const studentObj = {
+    id, name, mobile:mob, cls:document.getElementById('smClass').value.trim(),
+    fee, admissionDate:adm, opening:op
+  };
+
+  if(existingIndex >= 0){
+    DB.students[existingIndex] = studentObj;
+  } else {
+    DB.students.push(studentObj);
+    if(op > 0){
+      DB.transactions.push({
+        id:uid(),
+        date:adm,
+        type:'Fees Due',
+        studentName:name,
+        studentId:id,
+        amount:op,
+        particulars:'Opening Balance'
+      });
+    }
+  }
+
+  saveData();
+  autoSyncAndDeduplicateFees(true);
+  closeStudentModal();
+  if(activeStudentId === id) openStudentLedger(id);
+  else renderStudentsList();
+  toast('Student details save ho gayi!');
+}
+
+/* ================= LEDGER & TRANSACTIONS ================= */
+function renderLedgerHero(s){
+  const due = getStudentDue(s);
+  const heroAmount = document.getElementById('ledgerHeroAmount');
+  const heroLabel = document.getElementById('ledgerHeroLabel');
+  const heroIcon = document.getElementById('ledgerHeroIcon');
+
+  if(due >= 0){
+    heroLabel.textContent = 'To Receive';
+    heroAmount.textContent = money(due);
+    heroIcon.textContent = '↙';
+    heroIcon.style.background = '#dcfce7';
+    heroIcon.style.color = 'var(--green)';
+  } else {
+    heroLabel.textContent = 'Advance / To Pay';
+    heroAmount.textContent = money(Math.abs(due));
+    heroIcon.textContent = '↗';
+    heroIcon.style.background = '#ffedd5';
+    heroIcon.style.color = 'var(--orange)';
+  }
+}
+
+function renderLedgerTransactions(){
+  if(!activeStudentId) return;
+  const q = (document.getElementById('searchLedgerTx').value||'').toLowerCase();
+  const list = DB.transactions.filter(t => t.studentId === activeStudentId && (!q || String(t.amount).includes(q) || (t.particulars||'').toLowerCase().includes(q)))
+    .sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+
+  const container = document.getElementById('ledgerTxContainer');
+  if(!list.length){
+    container.innerHTML = '<div style="padding:30px;text-align:center;color:#9ca3af">Koi transaction nahi hai</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(t=>{
+    const isDebit = t.type === 'Fees Due';
+    const displayParticulars = formatParticularsWithMonth(t.particulars, t.date, t.type);
+    return `
+      <div class="ledger-row ${isDebit ? 'debit' : 'credit'}" onclick="openEditTxModal('${t.id}')">
+        <div class="tx-particulars">
+          <span style="font-size:12px;color:${isDebit?'var(--orange)':'var(--green)'}">${isDebit?'↗':'↙'}</span>
+          <div>
+            <div class="tx-type-title">${displayParticulars}</div>
+            <div class="tx-date-sub">${fmtShortDate(t.date)} • Tap to Edit</div>
+          </div>
+        </div>
+        <div class="tx-given">${isDebit ? t.amount : '-'}</div>
+        <div class="tx-received">${!isDebit ? t.amount : '-'}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function handleTxDateChange(){
+  const type = document.getElementById('txTypeSelect').value;
+  const dateVal = document.getElementById('txDate').value;
+  if(type === 'Fees Due'){
+    document.getElementById('txParticulars').value = `Fees due (${getMonthYearStr(dateVal)})`;
+  } else {
+    document.getElementById('txParticulars').value = `Payment Received`;
+  }
+}
+
+function handleTxTypeChange(){
+  const type = document.getElementById('txTypeSelect').value;
+  const dateVal = document.getElementById('txDate').value || today();
+  const isReceipt = (type === 'Receipt');
+  
+  document.getElementById('txPayDetails').style.display = isReceipt ? 'block' : 'none';
+  document.getElementById('txParticulars').value = isReceipt ? `Payment Received` : `Fees due (${getMonthYearStr(dateVal)})`;
+  document.getElementById('txModalTitle').textContent = isReceipt ? 'Receive Payment' : 'Add Fees Entry';
+  document.getElementById('txModalSubmitBtn').style.background = isReceipt ? 'var(--green)' : 'var(--orange-btn)';
+  document.getElementById('txModalSubmitBtn').textContent = isReceipt ? 'Save Payment' : 'Save Fees';
+}
+
+function openAddTxModal(kind){
+  document.getElementById('txEditId').value = '';
+  document.getElementById('txTypeSelect').value = kind;
+  document.getElementById('txDate').value = today();
+  document.getElementById('txAmount').value = '';
+  
+  handleTxTypeChange();
+  
+  document.getElementById('btnDeleteTx').style.display = 'none';
+  document.getElementById('txModal').style.display = 'flex';
+}
+
+function openEditTxModal(txId){
+  const t = DB.transactions.find(x => x.id === txId);
+  if(!t) return;
+  document.getElementById('txEditId').value = t.id;
+  document.getElementById('txTypeSelect').value = t.type;
+  document.getElementById('txDate').value = t.date || today();
+  document.getElementById('txAmount').value = t.amount;
+  document.getElementById('txParticulars').value = formatParticularsWithMonth(t.particulars, t.date, t.type);
+  
+  const isReceipt = (t.type === 'Receipt');
+  document.getElementById('txPayDetails').style.display = isReceipt ? 'block' : 'none';
+  document.getElementById('txModalTitle').textContent = isReceipt ? 'Edit Payment' : 'Edit Fees';
+  document.getElementById('btnDeleteTx').style.display = 'block';
+  document.getElementById('txModal').style.display = 'flex';
+}
+
+function closeTxModal(){ document.getElementById('txModal').style.display = 'none'; }
+
+function saveTransactionEntry(){
+  const editId = document.getElementById('txEditId').value;
+  const amount = Number(document.getElementById('txAmount').value||0);
+  if(amount <= 0){toast('Kripya sahi amount bharein');return;}
+  const type = document.getElementById('txTypeSelect').value;
+  const date = document.getElementById('txDate').value || today();
+  
+  if(type === 'Fees Due' && date > today()){
+    toast('भविष्य की तारीख में फीस डेबिट नहीं की जा सकती!');
+    return;
+  }
+
+  let particulars = document.getElementById('txParticulars').value.trim();
+  if(!particulars){
+    particulars = (type === 'Fees Due') ? `Fees due (${getMonthYearStr(date)})` : `Payment Received`;
+  }
+
+  if(editId){
+    const idx = DB.transactions.findIndex(x => x.id === editId);
+    if(idx >= 0){
+      DB.transactions[idx].type = type;
+      DB.transactions[idx].date = date;
+      DB.transactions[idx].amount = amount;
+      DB.transactions[idx].particulars = (type === 'Receipt' && (!particulars || /payment\s*received/i.test(particulars))) ? 'Payment Received' : particulars;
+      DB.transactions[idx].mode = document.getElementById('txMode').value;
+      toast('Transaction update ho gaya!');
+    }
+  } else {
+    const s = DB.students.find(x => x.id === activeStudentId);
+    const newTx = {
+      id: uid(),
+      studentId: activeStudentId,
+      studentName: s ? s.name : '',
+      type,
+      date,
+      amount,
+      particulars: (type === 'Receipt' && (!particulars || /payment\s*received/i.test(particulars))) ? 'Payment Received' : particulars,
+      mode: document.getElementById('txMode').value
+    };
+    DB.transactions.push(newTx);
+    toast('Entry save ho gayi!');
+  }
+
+  saveData();
+  closeTxModal();
+  if(activeStudentId){
+    const s = DB.students.find(x => x.id === activeStudentId);
+    renderLedgerHero(s);
+    renderLedgerTransactions();
+  }
+  renderDaybookStream();
+}
+
+function deleteCurrentTx(){
+  const editId = document.getElementById('txEditId').value;
+  if(!editId) return;
+  if(confirm('Kya aap is transaction ko delete karna chahte hain?')){
+    DB.transactions = DB.transactions.filter(x => x.id !== editId);
+    saveData();
+    closeTxModal();
+    if(activeStudentId){
+      const s = DB.students.find(x => x.id === activeStudentId);
+      renderLedgerHero(s);
+      renderLedgerTransactions();
+    }
+    renderDaybookStream();
+    toast('Transaction delete ho gaya!');
+  }
+}
+
+/* ================= DYNAMIC PAYMENT LINK (HOSTED) ================= */
+function generateUpiLink(amount, studentName){
+  const upiId = (DB.upi && DB.upi.id) ? DB.upi.id : '8789119701@ptyes';
+  const upiName = (DB.upi && DB.upi.name) ? DB.upi.name : 'Sujeet Yadav';
+  const cleanAmt = Math.max(0, Math.round(Number(amount) || 0));
+  const note = encodeURIComponent(`Fees BSC Education ${studentName || ''}`.trim());
+  const compName = DB.company ? DB.company.name : 'BSC EDUCATION';
+  
+  // Raw direct fallback link if running without hosting
+  const rawUpiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${cleanAmt}&cu=INR&tn=${note}`;
+  
+  // If the user runs the file locally (file://), return raw upi link kyunki local path shareable nahi hoti
+  if(window.location.protocol === 'file:') {
+    return rawUpiLink;
+  }
+  
+  // Custom Dynamic Landing Page built within this app
+  const baseUrl = window.location.origin + window.location.pathname;
+  return `${baseUrl}?pay=1&pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${cleanAmt}&tn=${note}&st=${encodeURIComponent(studentName||'')}&cn=${encodeURIComponent(compName)}`;
+}
+
+/* ================= EXACT PDF PREVIEW ================= */
+function openPdfPreviewScreen(){
+  if(!activeStudentId) return;
+  const s = DB.students.find(x => x.id === activeStudentId);
+  if(!s) return;
+
+  applyCompanyBranding();
+
+  document.getElementById('viewLedger').classList.add('hidden');
+  document.getElementById('barLedgerActions').style.display = 'none';
+  document.getElementById('viewPdfPreview').classList.remove('hidden');
+
+  document.getElementById('pdfStudentName').textContent = s.name;
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const dStr = `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}`;
+  let hours = now.getHours();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+  const tStr = `${pad(hours)}:${pad(now.getMinutes())} ${ampm}`;
+  document.getElementById('pdfGenTime').textContent = `${dStr} ${tStr}`;
+
+  document.getElementById('pdfUpiIdDisplay').textContent = (DB.upi && DB.upi.id) || '8789119701@ptyes';
+  document.getElementById('pdfUpiNameDisplay').textContent = (DB.upi && DB.upi.name) || 'Sujeet Yadav';
+
+  const chronological = DB.transactions
+    .filter(t => t.studentId === activeStudentId)
+    .sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+
+  let runningBal = 0;
+  let totalDebit = 0;
+  let totalCredit = 0;
+
+  const calculatedRows = chronological.map(t=>{
+    const isDebit = (t.type === 'Fees Due');
+    const amt = Number(t.amount||0);
+    if(isDebit){
+      runningBal += amt;
+      totalDebit += amt;
+    } else {
+      runningBal -= amt;
+      totalCredit += amt;
+    }
+    
+    const partDisplay = formatParticularsWithMonth(t.particulars, t.date, isDebit ? 'Fees Due' : 'Receipt');
+
+    return {
+      date: fmtShortDate(t.date),
+      particulars: partDisplay,
+      debit: isDebit ? amt : '-',
+      credit: !isDebit ? amt : '-',
+      balance: runningBal > 0 ? runningBal : '-'
+    };
+  });
+
+  const finalDue = getStudentDue(s);
+  document.getElementById('pdfCardAmount').textContent = '₹ ' + Math.abs(finalDue);
+  if(finalDue >= 0){
+    document.getElementById('pdfCardLabel').textContent = 'To Receive';
+    document.getElementById('pdfCardIcon').textContent = '↙';
+    document.getElementById('pdfCardIcon').style.background = '#10b981';
+  } else {
+    document.getElementById('pdfCardLabel').textContent = 'Advance';
+    document.getElementById('pdfCardIcon').textContent = '↗';
+    document.getElementById('pdfCardIcon').style.background = '#f59e0b';
+  }
+
+  const tbody = document.getElementById('pdfTableBody');
+  if(!calculatedRows.length){
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px;color:#94a3b8">Koi records uplabdh nahi hain</td></tr>`;
+  } else {
+    tbody.innerHTML = calculatedRows.map(r=>{
+      return `
+        <tr>
+          <td class="col-date">${r.date}</td>
+          <td class="col-part">${r.particulars}</td>
+          <td class="col-debit">${r.debit}</td>
+          <td class="col-credit">${r.credit}</td>
+          <td class="col-bal">${r.balance}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  document.getElementById('pdfTotalDebit').textContent = totalDebit ? totalDebit : '-';
+  document.getElementById('pdfTotalCredit').textContent = totalCredit ? totalCredit : '-';
+  document.getElementById('pdfFinalBal').textContent = finalDue > 0 ? finalDue : '-';
+}
+
+function closePdfPreview(){
+  document.getElementById('viewPdfPreview').classList.add('hidden');
+  document.getElementById('viewLedger').classList.remove('hidden');
+  document.getElementById('barLedgerActions').style.display = 'grid';
+}
+
+function sharePdfStatement(){
+  const s = DB.students.find(x => x.id === activeStudentId);
+  const due = s ? getStudentDue(s) : 0;
+  const upiId = (DB.upi && DB.upi.id) || '8789119701@ptyes';
+  const payLink = generateUpiLink(due, s ? s.name : '');
+
+  const shareText = `*${DB.company.name} - Student Statement Report*\nStudent: ${s?s.name:''}\nBalance Due: ₹ ${due}\n\n💳 *Online Payment Link (QR & Tap to Pay):*\n${payLink}\nUPI ID: ${upiId} (Sujeet Yadav)\n\nNote: Payment ke baad screenshot share karein taaki hum entry credit kar sakein.\nAddress: ${DB.company.address}\nMobile: ${DB.company.mobile}`;
+  
+  if(navigator.share){
+    navigator.share({title:'Student Statement Report', text: shareText}).catch(()=>{});
+  } else if(s && s.mobile){
+    let phone = s.mobile.replace(/[^0-9]/g,'');
+    if(phone.length === 10) phone = '91' + phone;
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(shareText)}`, '_blank');
+  } else {
+    window.print();
+  }
+}
+
+/* ================= DAYBOOK ================= */
+function renderDaybookStream(){
+  const q = (document.getElementById('searchTxInput')?.value||'').toLowerCase();
+  const list = DB.transactions.filter(t => !q || (t.studentName||'').toLowerCase().includes(q) || String(t.amount).includes(q) || (t.particulars||'').toLowerCase().includes(q))
+    .sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+
+  const container = document.getElementById('transactionsContainer');
+  if(!list.length){
+    container.innerHTML = '<div style="padding:30px;text-align:center;color:#9ca3af">Koi daybook transaction nahi hai</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(t=>{
+    const isDebit = (t.type === 'Fees Due');
+    const displayParticulars = formatParticularsWithMonth(t.particulars, t.date, t.type);
+    return `
+      <div class="student-item" onclick="openEditTxModal('${t.id}')">
+        <div class="student-info">
+          <div class="student-name">${t.studentName || 'Student'}</div>
+          <div class="student-sub">${displayParticulars} • ${fmtShortDate(t.date)} (Tap to Edit)</div>
+        </div>
+        <div class="student-right">
+          <div class="student-amount ${isDebit ? 'neg' : 'pos'}">${money(t.amount)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ================= PRE-FILLED WHATSAPP REMINDER WITH UPI ================= */
+function openQuickReminderFor(studentId){
+  const s = DB.students.find(x => x.id === studentId);
+  if(!s) return;
+  activeStudentId = s.id;
+  openQuickReminder();
+}
+
+function openQuickReminder(){
+  const s = DB.students.find(x => x.id === activeStudentId);
+  if(!s) return;
+  const due = getStudentDue(s);
+  document.getElementById('remStudentName').textContent = s.name;
+  document.getElementById('remStudentDue').textContent = money(due);
+
+  const upiId = (DB.upi && DB.upi.id) ? DB.upi.id : '8789119701@ptyes';
+  const upiName = (DB.upi && DB.upi.name) ? DB.upi.name : 'Sujeet Yadav';
+  const payLink = generateUpiLink(due, s.name);
+
+  let msgTpl = (DB.templates && DB.templates.reminder) ? DB.templates.reminder : `{student} ji, aapki {company} ki fees {amount} due hai. Kripya samay par jama karein.\n\n💳 Online Payment Link (QR & Tap to Pay):\n{payLink}\n\n👉 UPI ID: {upiId}\n👉 Account Name: {upiName}\n\n(Note: Payment karne ke baad screenshot isi WhatsApp number par share karein.)\nDhanyawad! - {company}`;
+
+  const filledMsg = msgTpl
+    .replace(/{student}/g, s.name)
+    .replace(/{amount}/g, money(due))
+    .replace(/{company}/g, DB.company.name)
+    .replace(/{payLink}/g, payLink)
+    .replace(/{upiId}/g, upiId)
+    .replace(/{upiName}/g, upiName);
+
+  document.getElementById('remMessage').value = filledMsg;
+  document.getElementById('remModal').style.display = 'flex';
+}
+
+function closeRemModal(){ document.getElementById('remModal').style.display = 'none'; }
+
+function sendWhatsAppReminder(){
+  const s = DB.students.find(x => x.id === activeStudentId);
+  if(!s || !s.mobile){toast('Student ka mobile number nahi hai');return;}
+  
+  let phone = s.mobile.replace(/[^0-9]/g,'');
+  if(phone.length === 10) phone = '91' + phone;
+
+  const msg = document.getElementById('remMessage').value;
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
+  window.open(whatsappUrl, '_blank');
+  closeRemModal();
+}
+
+/* ================= CREATE NEW COMPANY ================= */
+function openCreateCompanyModal(){
+  document.getElementById('newCompName').value = '';
+  document.getElementById('newCompAddress').value = '';
+  document.getElementById('newCompMobile').value = '';
+  document.getElementById('newCompEmail').value = '';
+  document.getElementById('newCompFy').value = '2026-2027';
+  document.getElementById('companyModal').style.display = 'flex';
+}
+
+function closeCreateCompanyModal(){
+  document.getElementById('companyModal').style.display = 'none';
+}
+
+function saveNewCompany(){
+  const name = document.getElementById('newCompName').value.trim();
+  const address = document.getElementById('newCompAddress').value.trim();
+  const mobile = document.getElementById('newCompMobile').value.trim();
+  const email = document.getElementById('newCompEmail').value.trim();
+  const fy = document.getElementById('newCompFy').value.trim() || '2026-2027';
+
+  if(!name){toast('Company Name bharna jaroori hai');return;}
+
+  DB.company = {name, address, mobile, email, fy};
+  saveData();
+  closeCreateCompanyModal();
+  switchMainTab('students');
+  toast(`Nayi company "${name}" create ho gayi!`);
+}
+
+/* ================= SETTINGS MODAL ================= */
+function openSettingsModal(){
+  const c = DB.company || {};
+  document.getElementById('setCompanyName').value = c.name || '';
+  document.getElementById('setCompanyAddress').value = c.address || '';
+  document.getElementById('setCompanyMobile').value = c.mobile || '';
+  document.getElementById('setCompanyEmail').value = c.email || '';
+  document.getElementById('setCompanyFy').value = c.fy || '2026-2027';
+  document.getElementById('setStoragePath').value = ACTIVE_KEY;
+
+  const upi = DB.upi || {};
+  document.getElementById('setUpiId').value = upi.id || '8789119701@ptyes';
+  document.getElementById('setUpiName').value = upi.name || 'Sujeet Yadav';
+
+  const tpls = DB.templates || {};
+  document.getElementById('setTplReminder').value = tpls.reminder || `{student} ji, aapki {company} ki fees {amount} due hai. Kripya samay par jama karein.\n\n💳 Online Payment Link (QR & Tap to Pay):\n{payLink}\n\n👉 UPI ID: {upiId}\n👉 Account Name: {upiName}\n\n(Note: Payment karne ke baad screenshot isi WhatsApp number par share karein.)\nDhanyawad! - {company}`;
+  document.getElementById('setTplReceipt').value = tpls.receipt || '{student} ji, aapki fees {amount} prapt hui. Dhanyawad! - {company}';
+  document.getElementById('setTplAbsent').value = tpls.absentAlert || 'Aadarniya Abhibhavak ji, aapka bacha {student} aaj दिनांक {date} ko {company} me anupasthit (Absent) hai. Kripya dhyan dein. - {company}';
+  document.getElementById('setTplLeave').value = tpls.leaveAlert || 'Aadarniya Abhibhavak ji, {student} ka aaj दिनांक {date} ka avkash (Leave) darj kiya gaya hai. Dhanyawad! - {company}';
+
+  document.getElementById('setAdminUser').value = (DB.login && DB.login.user) ? DB.login.user : 'admin';
+  document.getElementById('setAdminPass').value = (DB.login && DB.login.pass) ? DB.login.pass : 'admin';
+
+  document.getElementById('settingsModal').style.display = 'flex';
+}
+
+function closeSettingsModal(){
+  document.getElementById('settingsModal').style.display = 'none';
+}
+
+function saveSettings(){
+  const name = document.getElementById('setCompanyName').value.trim();
+  const address = document.getElementById('setCompanyAddress').value.trim();
+  const mobile = document.getElementById('setCompanyMobile').value.trim();
+  const email = document.getElementById('setCompanyEmail').value.trim();
+  const fy = document.getElementById('setCompanyFy').value.trim();
+  const newStorageKey = document.getElementById('setStoragePath').value.trim();
+
+  if(!name){toast('Company Name bharna jaroori hai');return;}
+
+  if(newStorageKey && newStorageKey !== ACTIVE_KEY){
+    ACTIVE_KEY = newStorageKey;
+    localStorage.setItem('bsc_active_storage_path', ACTIVE_KEY);
+  }
+
+  DB.company = {name, address, mobile, email, fy};
+  DB.upi = {
+    id: document.getElementById('setUpiId').value.trim() || '8789119701@ptyes',
+    name: document.getElementById('setUpiName').value.trim() || 'Sujeet Yadav'
+  };
+
+  DB.templates = {
+    reminder: document.getElementById('setTplReminder').value.trim(),
+    receipt: document.getElementById('setTplReceipt').value.trim(),
+    absentAlert: document.getElementById('setTplAbsent').value.trim(),
+    leaveAlert: document.getElementById('setTplLeave').value.trim()
+  };
+  DB.login = {
+    user: document.getElementById('setAdminUser').value.trim() || 'admin',
+    pass: document.getElementById('setAdminPass').value.trim() || 'admin'
+  };
+
+  saveData();
+  closeSettingsModal();
+  toast('Settings safaltapoorvak save ho gayi!');
+}
+
+/* ================= DRAWER & BACKUP ================= */
+function openDrawer(){
+  document.getElementById('navDrawer').classList.add('open');
+  document.getElementById('drawerOverlay').style.display = 'block';
+}
+function closeDrawer(){
+  document.getElementById('navDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').style.display = 'none';
+}
+function backupData(){
+  const blob = new Blob([JSON.stringify(DB, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${DB.company.name.replace(/\s+/g,'_')}_Backup.json`;
+  a.click();
+}
+
+// Initial App Processing for Main View
+if (!isPaymentPage) {
+  autoSyncAndDeduplicateFees(true);
+}
+</script>
+</body>
+</html>
