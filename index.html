@@ -620,12 +620,6 @@ body{background:#0f172a;color:var(--text-dark);display:flex;justify-content:cent
         Pay ₹ <span id="payPageBtnAmt">0</span> Now 🚀
       </button>
     </div>
-
-    <div style="text-align:center;margin-top:14px;padding:0 16px">
-      <button onclick="exitPaymentPageToPortal()" style="background:none;border:none;color:#1a73e8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">
-        Go to BSC EDUCATION Portal
-      </button>
-    </div>
   </div>
 
   <!-- ================= 1. LOGIN SCREEN ================= -->
@@ -646,19 +640,16 @@ body{background:#0f172a;color:var(--text-dark);display:flex;justify-content:cent
       <div id="adminLoginForm">
         <div class="form-group">
           <label>Admin User ID</label>
-          <input id="loginUser" value="admin" placeholder="admin" autocomplete="username">
+          <input id="loginUser" placeholder="Enter Admin User ID" autocomplete="username">
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input id="loginPass" type="password" value="admin" placeholder="admin" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginAdmin()">
+          <input id="loginPass" type="password" placeholder="Enter Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginAdmin()">
         </div>
         <div style="margin-top:16px">
           <button onclick="loginAdmin()" style="width:100%;padding:13px;background:#1a73e8;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer">
             Admin Login 🔐
           </button>
-        </div>
-        <div style="margin-top:10px;text-align:center;font-size:11.5px;color:#64748b">
-          Default: ID <b>admin</b> • Password: <b>admin</b>
         </div>
       </div>
 
@@ -1120,8 +1111,32 @@ body{background:#0f172a;color:var(--text-dark);display:flex;justify-content:cent
     <li class="drawer-item" style="color:var(--green);font-weight:700" onclick="closeDrawer();exportFullExcelBackend()">📊 Export Backend to Excel (.xlsx)</li>
     <li class="drawer-item" style="color:#7c3aed;font-weight:700" onclick="closeDrawer();openCloudSyncModal()">☁️ OneDrive / Cloud Synchronisation</li>
     <li class="drawer-item" onclick="closeDrawer();downloadAppHtml()">📥 Download Updated HTML File</li>
+    <li class="drawer-item" onclick="closeDrawer();openChangePasswordModal()">🔑 Change Password</li>
     <li class="drawer-item" style="color:var(--red);margin-top:14px" onclick="logoutAdmin()">🚪 Logout Admin</li>
   </ul>
+</div>
+
+<!-- MODAL: CHANGE PASSWORD -->
+<div id="changePasswordModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title">🔑 Change Password</div>
+    <div class="form-group">
+      <label>Current Password *</label>
+      <input id="cpCurrentPass" type="password" placeholder="Enter current password">
+    </div>
+    <div class="form-group">
+      <label>New Password *</label>
+      <input id="cpNewPass" type="password" placeholder="Enter new password">
+    </div>
+    <div class="form-group">
+      <label>Confirm New Password *</label>
+      <input id="cpConfirmPass" type="password" placeholder="Re-enter new password">
+    </div>
+    <div class="form-actions">
+      <button style="background:#e5e7eb" onclick="closeChangePasswordModal()">Cancel</button>
+      <button style="background:var(--primary);color:#fff" onclick="saveNewAdminPassword()">Update Password</button>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL: MANAGE SUBJECTS -->
@@ -1668,6 +1683,9 @@ function loadDataWithFullRecovery(){
   if(!master.templates) master.templates = getInitialDefaultTemplates();
   if(!master.subjects || !master.subjects.length) master.subjects = ['Math', 'Science', 'Physics', 'Chemistry', 'English', 'Hindi', 'Social Science'];
   if(!master.cloudConfig) master.cloudConfig = { onedriveUrl: '', onedriveToken: '' };
+  if(!master.adminAuth || !master.adminAuth.username || !master.adminAuth.password){
+    master.adminAuth = { username: 'bsceducation', password: 'bsc010111@123' };
+  }
   if(!master.company) master.company = {
     name: 'BSC EDUCATION',
     address: 'Giridih',
@@ -1829,14 +1847,6 @@ function openUpiApp(appType){
       window.location.href = genericUrl;
     }
   }, 900);
-}
-
-function exitPaymentPageToPortal(){
-  document.getElementById('upiPaymentPage').classList.add('hidden');
-  document.getElementById('loginScreen').classList.remove('hidden');
-  if(window.history && window.history.replaceState){
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
 }
 
 /* ================= TASK 1 & 2: AUTOMATIC MONTHLY FEES DEBIT & FUTURE DATE CONTROL ================= */
@@ -2006,7 +2016,7 @@ function getInitialDemoQuestions(){
   ];
 }
 
-/* ================= 1. LOGIN REPAIRED & AUTO-SYNC ================= */
+/* ================= 1. LOGIN & CHANGE PASSWORD ================= */
 function switchLoginRole(role){
   const isAdmin = (role === 'admin');
   document.getElementById('roleTabAdmin').classList.toggle('active', isAdmin);
@@ -2025,7 +2035,10 @@ function loginAdmin(){
     return;
   }
 
-  if(u.toLowerCase() === 'admin' && p === 'admin'){
+  const validUser = (DB.adminAuth && DB.adminAuth.username) ? DB.adminAuth.username : 'bsceducation';
+  const validPass = (DB.adminAuth && DB.adminAuth.password) ? DB.adminAuth.password : 'bsc010111@123';
+
+  if(u.toLowerCase() === validUser.toLowerCase() && p === validPass){
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('adminApp').classList.remove('hidden');
     document.getElementById('studentApp').classList.add('hidden');
@@ -2037,6 +2050,45 @@ function loginAdmin(){
   } else {
     toast('गलत User ID या Password! कृपया पुनः प्रयास करें।');
   }
+}
+
+function openChangePasswordModal(){
+  document.getElementById('cpCurrentPass').value = '';
+  document.getElementById('cpNewPass').value = '';
+  document.getElementById('cpConfirmPass').value = '';
+  document.getElementById('changePasswordModal').style.display = 'flex';
+}
+
+function closeChangePasswordModal(){
+  document.getElementById('changePasswordModal').style.display = 'none';
+}
+
+function saveNewAdminPassword(){
+  const currentPass = (document.getElementById('cpCurrentPass').value || '').trim();
+  const newPass = (document.getElementById('cpNewPass').value || '').trim();
+  const confirmPass = (document.getElementById('cpConfirmPass').value || '').trim();
+
+  if(!currentPass || !newPass || !confirmPass){
+    toast('कृपया सभी फ़ील्ड भरें!');
+    return;
+  }
+
+  const storedPass = (DB.adminAuth && DB.adminAuth.password) ? DB.adminAuth.password : 'bsc010111@123';
+  if(currentPass !== storedPass){
+    toast('वर्तमान Password गलत है!');
+    return;
+  }
+
+  if(newPass !== confirmPass){
+    toast('नया Password और Confirm Password मेल नहीं खाते!');
+    return;
+  }
+
+  if(!DB.adminAuth) DB.adminAuth = { username: 'bsceducation', password: 'bsc010111@123' };
+  DB.adminAuth.password = newPass;
+  saveData();
+  closeChangePasswordModal();
+  toast('Password सफलतापूर्वक बदल दिया गया!');
 }
 
 function logoutAdmin(){
