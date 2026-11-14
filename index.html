@@ -1099,12 +1099,14 @@ body{background:#0f172a;color:var(--text-dark);display:flex;justify-content:cent
   </div>
   <ul class="drawer-menu">
     <li class="drawer-item" onclick="closeDrawer();switchAdminNav('students')">👥 Student Admission & Management</li>
+    <li class="drawer-item" style="color:#dc2626;font-weight:700" onclick="closeDrawer();openInactiveStudentsModal()">🚫 Inactive Students</li>
     <li class="drawer-item" onclick="closeDrawer();switchAdminNav('qbank')">📚 Question Bank Management</li>
     <li class="drawer-item" onclick="closeDrawer();switchAdminNav('homework')">📝 Daily Homework & Weekly Test</li>
     <li class="drawer-item" onclick="closeDrawer();switchAdminNav('ranks')">🏆 Class Rank List & Analytics</li>
     <li class="drawer-item" onclick="closeDrawer();openAttendanceScreen()">📅 Attendance Register</li>
     <li class="drawer-item" onclick="closeDrawer();switchAdminNav('transactions')">📖 Daybook (Fees Ledger)</li>
     <hr style="border:none;border-top:1px solid #f1f5f9;margin:6px 0">
+    <li class="drawer-item" style="color:#0284c7;font-weight:700" onclick="closeDrawer();openBatchManagerModal()">🕒 Manage Batches</li>
     <li class="drawer-item" style="color:#0284c7;font-weight:700" onclick="closeDrawer();openSubjectManagerModal()">📖 Manage Subjects</li>
     <li class="drawer-item" style="color:#1e3a8a;font-weight:700" onclick="closeDrawer();openStorageFolderModal()">📁 Select Android Storage Folder</li>
     <li class="drawer-item" style="color:#059669;font-weight:700" onclick="closeDrawer();openNotificationTemplatesModal()">📋 Notification Templates (Excel)</li>
@@ -1114,6 +1116,46 @@ body{background:#0f172a;color:var(--text-dark);display:flex;justify-content:cent
     <li class="drawer-item" onclick="closeDrawer();openChangePasswordModal()">🔑 Change Password</li>
     <li class="drawer-item" style="color:var(--red);margin-top:14px" onclick="logoutAdmin()">🚪 Logout Admin</li>
   </ul>
+</div>
+
+<!-- MODAL: INACTIVE STUDENTS -->
+<div id="inactiveStudentsModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title">🚫 Inactive Students</div>
+    <p style="font-size:12px;color:#64748b;margin-bottom:12px">
+      Tap any inactive student below to edit details or mark as Active again.
+    </p>
+    <div id="inactiveStudentsListContainer" style="max-height:360px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:10px"></div>
+    <div class="form-actions">
+      <button style="background:#e5e7eb" onclick="closeInactiveStudentsModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: MANAGE BATCHES -->
+<div id="batchManagerModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title">🕒 Manage Batches</div>
+    <p style="font-size:12px;color:#64748b;margin-bottom:12px">
+      Add, alter, or remove batches. Changes will immediately update batch filter and admission dropdowns.
+    </p>
+
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input id="newBatchInput" placeholder="Enter batch name..." style="flex:1;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13.5px">
+      <button id="btnSaveBatch" onclick="saveBatchItem()" style="padding:10px 14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">
+        + Add
+      </button>
+      <button id="btnCancelBatchEdit" class="hidden" onclick="cancelEditBatch()" style="padding:10px 10px;background:#e5e7eb;color:#374151;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer">
+        Cancel
+      </button>
+    </div>
+
+    <div id="batchListContainer" style="max-height:240px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px;padding:6px"></div>
+
+    <div class="form-actions">
+      <button style="background:#e5e7eb" onclick="closeBatchManagerModal()">Close</button>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL: CHANGE PASSWORD -->
@@ -1642,6 +1684,7 @@ let androidDirectoryHandle = null;
 let heldStudentId = null;
 let heldQuestionId = null;
 let currentPayData = null;
+let editingBatchIndex = -1;
 
 function loadDataWithFullRecovery(){
   let master = null;
@@ -1682,6 +1725,7 @@ function loadDataWithFullRecovery(){
   if(!master.submissions) master.submissions = [];
   if(!master.templates) master.templates = getInitialDefaultTemplates();
   if(!master.subjects || !master.subjects.length) master.subjects = ['Math', 'Science', 'Physics', 'Chemistry', 'English', 'Hindi', 'Social Science'];
+  if(!master.batches || !master.batches.length) master.batches = ['Morning', 'Evening', 'Target'];
   if(!master.cloudConfig) master.cloudConfig = { onedriveUrl: '', onedriveToken: '' };
   if(!master.adminAuth || !master.adminAuth.username || !master.adminAuth.password){
     master.adminAuth = { username: 'bsceducation', password: 'bsc010111@123' };
@@ -1717,6 +1761,15 @@ function toast(m){
   t.textContent = m;
   t.classList.remove('hidden');
   setTimeout(()=>t.classList.add('hidden'), 3500);
+}
+
+function escapeHtml(str){
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function formatShortDate(dStr){
@@ -2045,6 +2098,7 @@ function loginAdmin(){
     enforceNoFutureDatePickers();
     syncActiveStudentsMonthlyFees();
     refreshSubjectDropdowns();
+    refreshBatchDropdowns();
     switchAdminNav('students');
     toast('Admin Login सफल!');
   } else {
@@ -2942,6 +2996,177 @@ function refreshSubjectDropdowns(){
   }
 }
 
+/* ================= BATCHES MANAGEMENT (ADD / REMOVE / ALTER) ================= */
+function openBatchManagerModal(){
+  editingBatchIndex = -1;
+  document.getElementById('newBatchInput').value = '';
+  document.getElementById('btnSaveBatch').textContent = '+ Add';
+  document.getElementById('btnCancelBatchEdit').classList.add('hidden');
+  renderBatchManagerList();
+  document.getElementById('batchManagerModal').style.display = 'flex';
+}
+
+function closeBatchManagerModal(){
+  editingBatchIndex = -1;
+  document.getElementById('batchManagerModal').style.display = 'none';
+}
+
+function renderBatchManagerList(){
+  const list = DB.batches || [];
+  const container = document.getElementById('batchListContainer');
+  if(!list.length){
+    container.innerHTML = '<div style="padding:10px;text-align:center;color:#9ca3af">कोई बैच नहीं है</div>';
+    return;
+  }
+
+  container.innerHTML = list.map((b, idx) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid #f1f5f9;gap:8px">
+      <span style="font-weight:600;font-size:13.5px;flex:1">${escapeHtml(b)}</span>
+      <div style="display:flex;gap:6px">
+        <button onclick="startEditBatch(${idx})" style="background:#eff6ff;color:#1d4ed8;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:bold;cursor:pointer">
+          ✏️ Alter
+        </button>
+        <button onclick="removeBatch(${idx})" style="background:#fee2e2;color:#dc2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:bold;cursor:pointer">
+          Delete ✕
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function startEditBatch(idx){
+  const list = DB.batches || [];
+  if(idx < 0 || idx >= list.length) return;
+  editingBatchIndex = idx;
+  const input = document.getElementById('newBatchInput');
+  input.value = list[idx];
+  input.focus();
+  document.getElementById('btnSaveBatch').textContent = 'Update';
+  document.getElementById('btnCancelBatchEdit').classList.remove('hidden');
+}
+
+function cancelEditBatch(){
+  editingBatchIndex = -1;
+  document.getElementById('newBatchInput').value = '';
+  document.getElementById('btnSaveBatch').textContent = '+ Add';
+  document.getElementById('btnCancelBatchEdit').classList.add('hidden');
+}
+
+function saveBatchItem(){
+  const input = document.getElementById('newBatchInput');
+  const val = input.value.trim();
+  if(!val){ toast('कृपया बैच का नाम दर्ज करें'); return; }
+  if(!DB.batches) DB.batches = ['Morning', 'Evening', 'Target'];
+
+  if(editingBatchIndex >= 0 && editingBatchIndex < DB.batches.length){
+    const oldVal = DB.batches[editingBatchIndex];
+    const duplicate = DB.batches.some((b, i) => i !== editingBatchIndex && b.toLowerCase() === val.toLowerCase());
+    if(duplicate){ toast('यह बैच पहले से मौजूद है'); return; }
+
+    DB.batches[editingBatchIndex] = val;
+    (DB.students || []).forEach(s => {
+      if(s.batch === oldVal) s.batch = val;
+    });
+    saveData();
+    cancelEditBatch();
+    renderBatchManagerList();
+    refreshBatchDropdowns();
+    renderStudentsList();
+    toast(`बैच "${oldVal}" को "${val}" में बदल दिया गया!`);
+  } else {
+    const duplicate = DB.batches.some(b => b.toLowerCase() === val.toLowerCase());
+    if(duplicate){ toast('यह बैच पहले से मौजूद है'); return; }
+
+    DB.batches.push(val);
+    saveData();
+    input.value = '';
+    renderBatchManagerList();
+    refreshBatchDropdowns();
+    toast(`बैच "${val}" जोड़ा गया!`);
+  }
+}
+
+function removeBatch(idx){
+  if(!DB.batches || DB.batches.length <= 1){
+    toast('कम से कम एक बैच होना आवश्यक है');
+    return;
+  }
+  const removed = DB.batches.splice(idx, 1);
+  if(editingBatchIndex === idx){
+    cancelEditBatch();
+  } else if(editingBatchIndex > idx){
+    editingBatchIndex--;
+  }
+  saveData();
+  renderBatchManagerList();
+  refreshBatchDropdowns();
+  toast(`बैच "${removed[0]}" हटाया गया`);
+}
+
+function refreshBatchDropdowns(){
+  const batches = DB.batches || ['Morning', 'Evening', 'Target'];
+
+  const filterBatch = document.getElementById('filterBatchSelect');
+  if(filterBatch){
+    const curr = filterBatch.value;
+    filterBatch.innerHTML = '<option value="">All Batches</option>' + batches.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`).join('');
+    if(batches.includes(curr)) filterBatch.value = curr;
+  }
+
+  const smBatch = document.getElementById('smBatch');
+  if(smBatch){
+    const curr = smBatch.value;
+    smBatch.innerHTML = batches.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)} Batch</option>`).join('');
+    if(batches.includes(curr)) smBatch.value = curr;
+  }
+}
+
+/* ================= INACTIVE STUDENTS MODAL ================= */
+function openInactiveStudentsModal(){
+  renderInactiveStudentsList();
+  document.getElementById('inactiveStudentsModal').style.display = 'flex';
+}
+
+function closeInactiveStudentsModal(){
+  document.getElementById('inactiveStudentsModal').style.display = 'none';
+}
+
+function renderInactiveStudentsList(){
+  const list = (DB.students || []).filter(s => s.status === 'inactive');
+  const container = document.getElementById('inactiveStudentsListContainer');
+  if(!list.length){
+    container.innerHTML = '<div style="padding:32px;text-align:center;color:#9ca3af;font-size:13px">कोई Inactive विद्यार्थी नहीं है</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(s => {
+    const due = getStudentDue(s);
+    return `
+      <div class="student-item" onclick="openEditInactiveStudent('${s.id}')">
+        <div class="student-info">
+          <div class="student-name">
+            ${escapeHtml(s.name)}
+            <span class="badge-status badge-inactive">inactive</span>
+          </div>
+          <div class="student-sub">
+            <span class="badge-tag">${escapeHtml(s.admNo)}</span> • Class: <b>${escapeHtml(s.cls)}</b> (${escapeHtml(s.batch || 'General')}) • ${escapeHtml(s.mobile)}
+          </div>
+        </div>
+        <div class="student-right">
+          <div>
+            <div style="font-size:13.5px;font-weight:700;color:${due > 0 ? 'var(--orange-dark)' : 'var(--green)'}">₹ ${Math.abs(due)}</div>
+            <div style="font-size:10px;color:#1a73e8;font-weight:600">Tap to Alter</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openEditInactiveStudent(studentId){
+  editStudentById(studentId);
+}
+
 /* ================= TRANSACTIONS (ADD, EDIT, DELETE) ================= */
 function openAddTxModal(type){
   enforceNoFutureDatePickers();
@@ -3149,10 +3374,11 @@ function getFilteredStudentsList(){
   const fBatch = document.getElementById('filterBatchSelect')?.value || '';
 
   return (DB.students || []).filter(s => {
+    const isActive = (s.status || 'active') !== 'inactive';
     const matchQ = (s.name || '').toLowerCase().includes(q) || (s.admNo || '').toLowerCase().includes(q) || (s.mobile || '').includes(q);
     const matchC = !fCls || s.cls === fCls;
     const matchB = !fBatch || s.batch === fBatch;
-    return matchQ && matchC && matchB;
+    return isActive && matchQ && matchC && matchB;
   });
 }
 
@@ -3195,19 +3421,36 @@ function renderStudentsList(){
 
 function generateNextAdmissionNo(){
   const year = new Date().getFullYear();
-  const count = (DB.students ? DB.students.length : 0) + 1;
-  return `BSC-${year}-${String(count).padStart(4, '0')}`;
+  const prefix = `BSC-${year}-`;
+  const existingAdmNos = new Set(
+    (DB.students || []).map(s => (s.admNo || '').trim().toUpperCase()).filter(Boolean)
+  );
+  let maxSeq = 0;
+  existingAdmNos.forEach(code => {
+    if(code.startsWith(prefix)){
+      const num = parseInt(code.slice(prefix.length), 10);
+      if(!isNaN(num) && num > maxSeq) maxSeq = num;
+    }
+  });
+  let nextSeq = maxSeq + 1;
+  let candidate = `${prefix}${String(nextSeq).padStart(4, '0')}`;
+  while(existingAdmNos.has(candidate.toUpperCase())){
+    nextSeq++;
+    candidate = `${prefix}${String(nextSeq).padStart(4, '0')}`;
+  }
+  return candidate;
 }
 
 function openAddStudentModal(){
   enforceNoFutureDatePickers();
+  refreshBatchDropdowns();
   document.getElementById('studentModalTitle').textContent = 'New Student Admission';
   document.getElementById('smId').value = '';
   document.getElementById('smAdmNo').value = generateNextAdmissionNo();
   document.getElementById('smName').value = '';
   document.getElementById('smMobile').value = '';
   document.getElementById('smClass').value = '10th';
-  document.getElementById('smBatch').value = 'Morning';
+  document.getElementById('smBatch').value = (DB.batches && DB.batches[0]) ? DB.batches[0] : 'Morning';
   document.getElementById('smFee').value = '2600';
   document.getElementById('smAdmission').value = today();
   document.getElementById('smStatus').value = 'active';
@@ -3216,23 +3459,38 @@ function openAddStudentModal(){
 }
 function closeStudentModal(){ document.getElementById('studentModal').style.display = 'none'; }
 
-function editCurrentStudent(){
-  if(!activeStudentId) return;
-  const s = (DB.students || []).find(x => x.id === activeStudentId);
+function editStudentById(studentId){
+  const s = (DB.students || []).find(x => x.id === studentId);
   if(!s) return;
   enforceNoFutureDatePickers();
+  refreshBatchDropdowns();
   document.getElementById('studentModalTitle').textContent = 'Edit Student Details';
   document.getElementById('smId').value = s.id;
   document.getElementById('smAdmNo').value = s.admNo;
   document.getElementById('smName').value = s.name;
   document.getElementById('smMobile').value = s.mobile;
   document.getElementById('smClass').value = s.cls;
-  document.getElementById('smBatch').value = s.batch || 'Morning';
+
+  const batchSel = document.getElementById('smBatch');
+  const stuBatch = s.batch || ((DB.batches && DB.batches[0]) ? DB.batches[0] : 'Morning');
+  if(!Array.from(batchSel.options).some(o => o.value === stuBatch)){
+    const opt = document.createElement('option');
+    opt.value = stuBatch;
+    opt.textContent = `${stuBatch} Batch`;
+    batchSel.appendChild(opt);
+  }
+  batchSel.value = stuBatch;
+
   document.getElementById('smFee').value = s.fee;
   document.getElementById('smAdmission').value = s.admissionDate;
   document.getElementById('smStatus').value = s.status || 'active';
   document.getElementById('smOpening').value = s.opening || 0;
   document.getElementById('studentModal').style.display = 'flex';
+}
+
+function editCurrentStudent(){
+  if(!activeStudentId) return;
+  editStudentById(activeStudentId);
 }
 
 function saveStudentAdmission(){
@@ -3259,7 +3517,32 @@ function saveStudentAdmission(){
   }
 
   const existingIdx = DB.students.findIndex(x => x.id === id);
-  const studentObj = { id, admNo, name, mobile:mob, cls, batch, fee, admissionDate:adm, status, opening:op };
+  let finalAdmNo = admNo;
+
+  if(existingIdx >= 0){
+    // Admission number is fixed once allotted
+    finalAdmNo = DB.students[existingIdx].admNo || admNo;
+  } else {
+    // Check with student list before allotting/saving admission no.
+    const dupAdm = (DB.students || []).find(s => (s.admNo || '').trim().toUpperCase() === finalAdmNo.toUpperCase());
+    if(dupAdm){
+      document.getElementById('smAdmNo').value = generateNextAdmissionNo();
+      toast('यह Admission Number पहले से आवंटित है! नया Admission Number तैयार किया गया है, कृपया पुनः सेव करें।');
+      return;
+    }
+
+    const normMob = mob.replace(/[^0-9]/g, '').slice(-10);
+    const dupStudent = (DB.students || []).find(s =>
+      (s.name || '').trim().toLowerCase() === name.toLowerCase() &&
+      (s.mobile || '').replace(/[^0-9]/g, '').slice(-10) === normMob
+    );
+    if(dupStudent){
+      toast(`डुप्लिकेट एडमिशन की अनुमति नहीं है! यह विद्यार्थी पहले से (${dupStudent.admNo}) में दर्ज है।`);
+      return;
+    }
+  }
+
+  const studentObj = { id, admNo: finalAdmNo, name, mobile:mob, cls, batch, fee, admissionDate:adm, status, opening:op };
 
   if(existingIdx >= 0){
     DB.students[existingIdx] = studentObj;
@@ -3277,13 +3560,16 @@ function saveStudentAdmission(){
         particulars: 'Opening Balance'
       });
     }
-    toast(`नया एडमिशन #${admNo} सफलतापूर्वक संपन्न हुआ!`);
+    toast(`नया एडमिशन #${finalAdmNo} सफलतापूर्वक संपन्न हुआ!`);
   }
 
   saveData();
   closeStudentModal();
   syncActiveStudentsMonthlyFees();
   renderStudentsList();
+  if(document.getElementById('inactiveStudentsModal').style.display === 'flex'){
+    renderInactiveStudentsList();
+  }
   if(activeStudentId === id){
     document.getElementById('headerTitle').textContent = name;
   }
@@ -3944,6 +4230,7 @@ window.addEventListener('DOMContentLoaded', () => {
   enforceNoFutureDatePickers();
   syncActiveStudentsMonthlyFees();
   refreshSubjectDropdowns();
+  refreshBatchDropdowns();
 });
 </script>
 </body>
