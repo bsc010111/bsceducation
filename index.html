@@ -2212,6 +2212,7 @@ function switchAdminNav(tab){
 
   document.getElementById('barAddStudent').classList.toggle('hidden', tab !== 'students');
   document.getElementById('barAddQuestion').classList.toggle('hidden', tab !== 'qbank');
+  document.getElementById('barLedgerActions').classList.add('hidden');
   document.getElementById('barLedgerActions').style.display = 'none';
 
   syncActiveStudentsMonthlyFees();
@@ -2251,6 +2252,7 @@ function openStudentLedger(studentId){
 
   document.getElementById('barAddStudent').classList.add('hidden');
   document.getElementById('barAddQuestion').classList.add('hidden');
+  document.getElementById('barLedgerActions').classList.remove('hidden');
   document.getElementById('barLedgerActions').style.display = 'grid';
 
   const due = getStudentDue(s);
@@ -2330,6 +2332,7 @@ function openPdfPreviewScreen(){
   if(!s) return;
 
   document.getElementById('viewLedger').classList.add('hidden');
+  document.getElementById('barLedgerActions').classList.add('hidden');
   document.getElementById('barLedgerActions').style.display = 'none';
   document.getElementById('viewPdfPreview').classList.remove('hidden');
 
@@ -2394,6 +2397,7 @@ function openPdfPreviewScreen(){
 function closePdfPreviewScreen(){
   document.getElementById('viewPdfPreview').classList.add('hidden');
   document.getElementById('viewLedger').classList.remove('hidden');
+  document.getElementById('barLedgerActions').classList.remove('hidden');
   document.getElementById('barLedgerActions').style.display = 'grid';
 }
 
@@ -2425,6 +2429,7 @@ function openAttendanceScreen(){
 
   document.getElementById('barAddStudent').classList.add('hidden');
   document.getElementById('barAddQuestion').classList.add('hidden');
+  document.getElementById('barLedgerActions').classList.add('hidden');
   document.getElementById('barLedgerActions').style.display = 'none';
 
   document.getElementById('btnHeaderMenu').classList.add('hidden');
